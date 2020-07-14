@@ -1,0 +1,47 @@
+- platform: mjpeg
+  mjpeg_url: !secret URL_Cam_Carport
+  name: Carport
+- platform: mjpeg
+  mjpeg_url: !secret URL_Cam_Tuin
+  name: Tuin
+- platform: mjpeg
+  mjpeg_url: !secret URL_Cam_Yi
+  name: Yi
+- platform: mjpeg
+  mjpeg_url: !secret URL_Cam_Achter
+  name: Achter
+- platform: mjpeg
+  mjpeg_url: !secret URL_Cam_Voor
+  name: Voor 
+  
+- platform: buienradar
+
+- platform: mjpeg
+  name: OctoPrint
+  still_image_url: !secret OctoPrintCamUrlStill
+  mjpeg_url: !secret OctoPrintCamUrlStream
+#- platform: ffmpeg
+#  input: -rtsp_transport tcp -i rtsp://rtsp:rtsp@10.4.2.33:554/live/ch1
+#  name: Tuin
+#
+#- platform: ffmpeg
+#  input: -rtsp_transport tcp -i rtsp://10.4.2.31:554/ch0_0.h264
+#  name: Baby
+#  
+#- platform: generic
+#  still_image_url: http://10.4.4.30:99/videostream.cgi?user=admin&pwd=cam
+#  username: admin
+#  name: Carport
+#  
+#- platform: generic
+#  still_image_url: http://10.4.4.31:99/videostream.cgi?user=admin&pwd=cam
+#  username: admin
+#  name: Cam_1
+#  
+#- platform: generic
+#  still_image_url: http://10.4.4.32:99/videostream.cgi?user=admin&pwd=cam
+#  name: Cam_2
+#  
+#- platform: generic
+#  still_image_url:  http://api.buienradar.nl/image/1.0/RadarMapNL?w=500&h=512
+#  name: Buienradar

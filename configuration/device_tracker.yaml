@@ -1,0 +1,11 @@
+- platform: luci
+  host: !secret Router_IP
+  username: !secret Router_User
+  password: !secret Router_Password
+  # If new discovered devices are tracked by default (default: yes)
+  track_new_devices: no
+  # Seconds between each scan for new devices (default: 12)
+  interval_seconds: 12
+  # Seconds to wait till marking someone as not home after not being seen
+  # (default: 180)
+  consider_home: 60

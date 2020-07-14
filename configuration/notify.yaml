@@ -1,0 +1,7 @@
+- name: mi8
+  platform: telegram
+  chat_id: !secret telegram_chatid_k
+
+- name: mi9se
+  platform: telegram
+  chat_id: !secret telegram_chatid_s

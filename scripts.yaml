@@ -1,0 +1,36 @@
+ timed_lamp:
+    alias: "Bright spots and set timer"
+    sequence:
+      # Cancel ev. old timers
+      - service: script.turn_off
+        data:
+           entity_id: script.timer_off
+      - service: scene.turn_on
+        data:
+          entity_id:
+          - scene.Spots_Kitchen_Normal
+      # Set new timer
+      - service: script.turn_on
+        data:
+           entity_id: script.timer_off
+
+ timer_off:
+    alias: "Dim spots after 5 minutes"
+    sequence:
+      - delay:
+          minutes: 5
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: input_boolean.naar_bed
+          state: 'off'
+        - condition: state
+          entity_id: input_boolean.avond_licht_triggered
+          state: 'off'
+        - condition: state
+          entity_id: light.qubino_keuken_spots_level
+          state: 'on'
+      - service: scene.turn_on
+        data:
+          entity_id:
+          - scene.Spots_Kitchen_Dim

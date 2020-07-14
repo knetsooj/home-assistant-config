@@ -1,0 +1,56 @@
+#MQTT domoticz        
+- platform: mqtt
+  name: "Gas"
+  state_topic: "domoticz/out/Meterkast/Gas"
+  unit_of_measurement: "M3"
+  value_template: '{{ value_json.svalue1 | float / 1000 }}'
+
+
+- platform: mqtt
+  name: "energy_consumption_low"
+  state_topic: "domoticz/out/Meterkast/Energy"
+  unit_of_measurement: "kWh"
+  value_template: '{{ value_json.svalue1 | float / 1000 }}'
+  
+- platform: mqtt
+  name: "energy_consumption_normal"
+  state_topic: "domoticz/out/Meterkast/Energy"
+  unit_of_measurement: "kWh"
+  value_template: '{{ value_json.svalue2 | float / 1000  }}'
+  
+- platform: mqtt
+  name: "energy_production_low"
+  state_topic: "domoticz/out/Meterkast/Energy"
+  unit_of_measurement: "W"
+  value_template: '{{ value_json.svalue3 | float / 1000  }}'
+
+- platform: mqtt
+  name: "energy_production_normal"
+  state_topic: "domoticz/out/Meterkast/Energy"
+  unit_of_measurement: "W"
+  value_template: '{{ value_json.svalue4 | float / 1000  }}'
+
+- platform: mqtt
+  name: "power_consumption"
+  state_topic: "domoticz/out/Meterkast/Energy"
+  unit_of_measurement: "W"
+  value_template: '{{ value_json.svalue5 }}'
+
+- platform: mqtt
+  name: "power_production"
+  state_topic: "domoticz/out/Meterkast/Energy"
+  unit_of_measurement: "W"
+  value_template: '{{ value_json.svalue6 }}'
+
+- platform: mqtt
+  name: "Zonnepanelen"
+  state_topic: "domoticz/out/Meterkast/PV"
+  unit_of_measurement: "W"
+  value_template: '{{ value_json.svalue1 }}' 
+  
+- platform: mqtt
+  state_topic: "valetudo/rockrobo/state"
+  json_attributes_topic: "valetudo/rockrobo/map_data"
+  name: rockrobo_map
+  value_template: 'OK'
+  scan_interval: 5

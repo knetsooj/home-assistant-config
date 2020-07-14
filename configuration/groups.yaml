@@ -1,0 +1,238 @@
+bdefault_view:
+  view: yes
+  icon: mdi:home
+  entities:
+    - sun.sun
+    - device_tracker.telefoonsteffie
+    - device_tracker.telefoonkevin
+    - sensor.br_symbol
+    - group.weer_frontpage
+    - group.sensors
+    - group.woonkamer
+    - group.afval
+    - group.keuken
+
+     #updater component
+    - persistent_notification.1
+#    - media_player.kodi_rpi
+#    - media_player.sony_tv
+
+view_weer:
+ name: Weer
+ view: yes
+ icon: mdi:white-balance-sunny
+ entities:
+   - group.weer_uitgebreid
+   - group.weer_voorspelling
+   - camera.Buienradar
+   - group.weather_card_forecast
+   
+view_camera:    
+  name: Camera
+  view: yes
+  icon: mdi:cctv
+  entities: 
+    - camera.tuin
+    - camera.carport
+    - camera.yi
+    
+view_switch:    
+  name: Switch
+  view: yes
+  icon: mdi:nintendo-switch
+  entities: 
+    - group.rolluiken_beneden
+    - group.rolluiken_boven
+    - group.booleans
+    - group.buiten
+    
+view_miscellaneous:
+  name: Systeemonderhoud
+  view: yes
+  icon: mdi:wrench
+  entities:
+#    - sensors.zonsopkomst
+#    - sensors.zonsondergang
+#    - sun.sun
+#    - updater.updater
+    - group.scenes
+    - group.scripts
+    - group.automations
+    - group.telegrams
+    - group.systeemonderhoud
+   
+#Groups
+systeemonderhoud:
+  name: Systeemonderhoud
+  entities:
+    - sensors.zonsopkomst
+    - sensors.zonsondergang
+    - script.restart_home_assistant
+    - script.reload_core_config
+
+rolluiken_beneden:
+  name: Rolluiken Beneden
+  entities:
+    - cover.qubino_beneden_voor_level
+    - cover.qubino_beneden_achter_level
+
+rolluiken_boven:
+  name: Rolluiken Boven
+  entities:
+    - cover.fibaro_system_boven_achter_klein_level
+    - cover.qubino_boven_achter_groot_level
+    - cover.qubino_boven_voor_klein_level
+    - cover.qubino_boven_voor_groot_level
+    - light.slaapkamer
+    
+woonkamer:
+  name: Woonkamer
+  entities:
+    - binary_sensor.fibaro_system_kamer_sensor
+    - sensor.fibaro_system_kamer_temperature
+    - binary_sensor.qubino_eettafel_sensor
+    - light.qubino_salontafel_level
+    - input_slider.salontafel_dimm
+    - light.qubino_eettafel_level
+    - input_slider.eettafel_dimm
+    - light.fibaro_system_rgbw_haard_level
+    - light.booglamp
+    - input_select.scene_tv
+    - device_tracker.stereoboom
+    
+keuken:
+  name: Keuken
+  entities:
+    - binary_sensor.fibaro_system_keuken_sensor
+    - sensor.fibaro_system_keuken_temperature
+    - binary_sensor.qubino_keuken_sensor
+    - light.qubino_keuken_spots_level
+    - input_slider.keukenspots_dimm
+    - light.qubino_keuken_level
+    
+buiten:
+  name: Buiten
+  entities:
+    - switch.neo_coolcam_washok_koelkast_switch
+    - light.qubino_terras_spots_level
+    - switch.neo_coolcam_power_plug_12a_switch
+
+afval:
+  name: Afval
+  entities:
+    - sensor.afval_datum1
+    - sensor.afval_soort
+    
+automations:
+ name: Automation
+ entities:
+    - automation.arriving_home
+    - automation.close_covers_for_sun
+    - automation.close_covers_in_the_evening
+    - automation.eettafel_dimm
+    - automation.eettafel_slider
+    - automation.hass_update_available
+    - automation.keukenspots_dimm
+    - automation.keukenspots_slider
+    - automation.naar_bed
+    - automation.mediaPlayer_playing
+    - automation.mediaPlayer_stopped
+    - automation.open_covers_after_warm_day
+    - automation.open_covers_in_the_morning_during_week
+    - automation.open_covers_in_the_morning_during_weekend
+    - automation.power_state_on_HA_startup
+    - automation.reset_bools_at_6am
+    - automation.salontafel_dimm
+    - automation.salontafel_slider
+    - automation.start_zwave_network_for_home_assistant
+    - automation.stop_zwave_network_for_open_zwave_control_panel
+    - automation.tot_ziens
+    - automation.turn_lights_on_as_the_sun_is_dimm
+    - automation.turn_lights_on_when_arriving_home
+    - automation.turn_on_kitchen_with_movement
+    - automation.zwave_complete
+    - automation.zwave_ready
+
+telegrams:
+  name: telegram Automations
+  entities:
+   - automation.telegram_bot_to_inform_about_the_local_weather
+   - automation.telegram_bot_to_notify_on_boot
+   - automation.telegram_bot_to_remind_to_put_bins_out
+   - automation.telegram_callback_to_remove_keyboard
+   - automation.telegram_callback_to_reply_camera_snapshot
+   - automation.telegram_callback_to_restart_hass
+    
+booleans:
+ name: Booleans
+ entities:
+    - input_boolean.avond_licht_triggered
+    - input_boolean.covers_nighttime
+    - input_boolean.lichten_getriggered
+    - input_boolean.motion_actief
+    - input_boolean.holiday_mode
+    - input_boolean.even_weg
+    - input_boolean.naar_bed
+    - input_boolean.trigger_first_morning
+    - input_boolean.zwave_complete
+    - input_boolean.zwave_ready
+
+#weather_card_forecast:
+#  name: Forecast
+#  icon: mdi:sun
+#  entities:
+#    - sensor.forecast_0
+#    - sensor.forecast_1
+#    - sensor.forecast_2
+#    - sensor.forecast_3
+#    - sensor.forecast_4
+#    - sensor.forecast_5
+    
+weer_frontpage:
+  name: Weer
+  entities: 
+    - sensor.pws_feelslike_c
+    - sensor.br_temperature
+    - sensor.br_symbol
+   
+weer_uitgebreid:
+  name: Weer rolluiken
+  entities:
+    - input_boolean.hot_day
+    - input_boolean.clear_weather 
+    - automation.close_covers_for_sun    
+    - automation.open_covers_after_warm_day
+    - automation.clear_weather_delay
+    - automation.clear_weather
+    
+weer_voorspelling:
+  name: Voorspelling
+  entities:
+    - sensor.br_symbol_1d
+    - sensor.br_symbol_2d
+    - sensor.br_symbol_3d
+    - sensor.br_symbol_4d
+    - sensor.br_symbol_5d
+    
+scripts:
+  name: scripts
+  entities:
+    - script.reload_core_config
+    - script.restart_home_assistant
+    - script.timed_lamp
+    - script.timer_off
+    
+Sensors:
+  name: Sensors
+  entities:
+    - sensor.fastcom_download
+    - sensor.exchange_rate_1_btc
+    
+scenes:
+  name: scenes
+  entities:
+    - scene.all_lights_off
+    - scene.background_lights
+    - scene.morning_first_motion
+    - scene.spots_kitchen_dim
+    - scene.spots_kitchen_normal

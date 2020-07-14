@@ -1,0 +1,15 @@
+- platform: flux_led
+  devices:
+    10.4.1.120:
+      name: RGBWHaard
+      mode: "rgbw"
+      custom_effect:
+        speed_pct: 40
+        transition: 'strobe'
+        colors:
+          - [255,0,0]
+          - [255,255,0]
+          - [0,255,0]
+          - [0,255,255]
+          - [0,0,255]
+          - [255,0,255]

@@ -1,0 +1,11 @@
+- name: School
+  latitude: !secret latitude_work_S
+  longitude: !secret longitude_work_S
+  radius: 200
+  icon: mdi:school
+  
+- name: Work
+  latitude: !secret latitude_work_K
+  longitude: !secret longitude_work_K
+  radius: 300
+  icon: mdi:factory

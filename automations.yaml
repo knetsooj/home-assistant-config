@@ -1,0 +1,875 @@
+- id: '1'
+  alias: Set  dark Theme
+  description: ''
+  trigger:
+  - at: '21:30'
+    platform: time
+  condition: []
+  action:
+  - data:
+      name: ios-dark-mode
+    service: frontend.set_theme
+- id: '3'
+  alias: clear weather delay
+  trigger:
+  - platform: template
+    value_template: '{{ states(''sensor.br_symbol'') != ''Vrijwel onbewolkt (zonnig/helder)''
+      }}'
+    for:
+      minutes: 25
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.clear_weather
+- id: '4'
+  alias: Boil water in the morning
+  trigger:
+  - platform: time
+    at: '6:45'
+  action:
+  - service: homeassistant.turn_on
+    entity_id: switch.sonoffs20_1
+- id: '5'
+  alias: Wake-me up using bedroom lights
+  trigger:
+    platform: template
+    value_template: '{{ states(''sensor.time'') == (states.input_datetime.wakeup_time.attributes.timestamp
+      | int | timestamp_custom(''%H:%M'', False)) }}'
+  condition:
+  - condition: state
+    entity_id: input_boolean.wakeup_enabled
+    state: 'on'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_boolean.wakeup_weekend
+      state: 'on'
+    - condition: time
+      weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+  action:
+  - service: light.turn_on
+    entity_id: light.slaapkamer
+    data:
+      transition: 500
+      brightness: 200
+- id: '6'
+  alias: Tot Ziens
+  trigger:
+    platform: state
+    entity_id: binary_sensor.qubino_keuken_sensor
+  condition:
+    condition: state
+    entity_id: input_boolean.zwave_ready
+    state: 'on'
+  action:
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.avond_licht_triggered
+  - service: scene.turn_on
+    entity_id: scene.All_lights_off
+  - service: homeassistant.turn_off
+    entity_id: script.timed_lamp
+- id: '7'
+  alias: reset bools at 6am
+  trigger:
+    platform: time
+    at: '6:00:00'
+  action:
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.naar_bed
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.avond_licht_triggered
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.hot_day
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.covers_nighttime
+- id: Resetbools
+  alias: reset bools at 16:00h
+  trigger:
+    platform: time
+    at: '16:00:00'
+  action:
+  - service: homeassistant.turn_off
+    entity_id: input_boolean.naar_bed
+- id: '8'
+  alias: Naar Bed
+  trigger:
+  - entity_id: binary_sensor.qubino_eettafel_sensor
+    platform: state
+  condition: []
+  action:
+  - entity_id: input_boolean.naar_bed
+    service: homeassistant.turn_on
+  - entity_id: input_boolean.avond_licht_triggered
+    service: homeassistant.turn_off
+  - entity_id: script.timed_lamp
+    service: homeassistant.turn_off
+  - entity_id: scene.All_lights_off
+    service: scene.turn_on
+  - data:
+      entity_id: climate.thermostaat
+      temperature: 18.5
+    service: climate.set_temperature
+- id: '10'
+  alias: Stuur gas meterstand door naar mindergas.nl
+  trigger:
+  - at: 00:05:00
+    platform: time
+  action:
+  - service: rest_command.post_meterstanden
+- id: '11'
+  alias: Turn lights on when arriving home
+  trigger:
+  - platform: state
+    entity_id: person.kevin, person.steffie
+    to: home
+  - platform: state
+    entity_id: input_boolean.babysit
+    to: 'on'
+  condition:
+    condition: and
+    conditions:
+    - condition: numeric_state
+      entity_id: sun.sun
+      value_template: '{{ state.attributes.elevation }}'
+      below: 1.5
+    - condition: state
+      entity_id: input_boolean.naar_bed
+      state: 'off'
+    - condition: state
+      entity_id: input_boolean.avond_licht_triggered
+      state: 'off'
+    - condition: state
+      entity_id: input_boolean.zwave_ready
+      state: 'on'
+    - condition: time
+      after: '16:00:00'
+      before: '5:00:00'
+  action:
+  - service: scene.turn_on
+    entity_id: scene.background_lights
+  - service: homeassistant.turn_on
+    entity_id: input_boolean.avond_licht_triggered
+- id: '12'
+  alias: Turn on kitchen with movement
+  trigger:
+  - entity_id: binary_sensor.fibaro_system_keuken_sensor
+    platform: state
+    to: 'on'
+  condition:
+  - condition: and
+    conditions:
+    - below: '1.5'
+      condition: numeric_state
+      entity_id: sun.sun
+      value_template: '{{ state.attributes.elevation }}'
+    - condition: state
+      entity_id: input_boolean.naar_bed
+      state: 'off'
+  action:
+  - entity_id: script.timed_lamp
+    service: homeassistant.turn_on
+- id: '13'
+  alias: Turn lights on as the sun is dimm
+  trigger:
+    platform: numeric_state
+    entity_id: sun.sun
+    value_template: '{{ state.attributes.elevation }}'
+    below: 1.5
+  condition:
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: person.kevin
+      state: home
+    - condition: state
+      entity_id: person.steffie
+      state: home
+    - condition: state
+      entity_id: input_boolean.babysit
+      state: 'on'
+  action:
+  - service: scene.turn_on
+    entity_id: scene.background_lights
+  - service: homeassistant.turn_on
+    entity_id: input_boolean.avond_licht_triggered
+- id: '15'
+  alias: Open Covers on workdays
+  trigger:
+  - platform: template
+    value_template: '{{ states(''input_datetime.coversopenworkday_time'').rsplit('':'',1)[0]
+      == states(''sensor.time'') }}
+
+      '
+  condition:
+  - condition: and
+    conditions:
+    - condition: time
+      weekday:
+      - mon
+      - tue
+      - wed
+    - condition: state
+      entity_id: input_boolean.holiday_mode_covers
+      state: 'off'
+  action:
+  - data:
+      entity_id: cover.qubino_beneden_voor_level
+      position: 100
+    service: cover.set_cover_position
+  - data:
+      entity_id: cover.qubino_beneden_achter_level
+      position: 100
+    service: cover.set_cover_position
+  - data:
+      entity_id: cover.qubino_boven_voor_klein_level
+      position: 100
+    service: cover.set_cover_position
+  - data:
+      entity_id: cover.qubino_boven_voor_groot_level
+      position: 100
+    service: cover.set_cover_position
+- id: '16'
+  alias: Open Covers non workday
+  trigger:
+  - platform: template
+    value_template: '{{ states(''input_datetime.coveropenweekday_time'').rsplit('':'',1)[0]
+      == states(''sensor.time'') }}
+
+      '
+  condition:
+  - condition: and
+    conditions:
+    - condition: time
+      weekday:
+      - thu
+      - fri
+    - condition: state
+      entity_id: input_boolean.holiday_mode_covers
+      state: 'off'
+  action:
+  - data:
+      entity_id: cover.qubino_beneden_voor_level
+      position: 100
+    service: cover.set_cover_position
+  - data:
+      entity_id: cover.qubino_beneden_achter_level
+      position: 100
+    service: cover.set_cover_position
+  - data:
+      entity_id: cover.qubino_boven_voor_klein_level
+      position: 100
+    service: cover.set_cover_position
+  - data:
+      entity_id: cover.qubino_boven_voor_groot_level
+      position: 100
+    service: cover.set_cover_position
+- id: '17'
+  alias: Open Covers during weekend
+  trigger:
+  - platform: template
+    value_template: "{{ states('input_datetime.coveropenweekend_time').rsplit(':',1)[0]\
+      \ == states('sensor.time') }}    \n"
+  condition:
+  - condition: and
+    conditions:
+    - condition: time
+      weekday:
+      - sat
+      - sun
+    - condition: state
+      entity_id: input_boolean.holiday_mode_covers
+      state: 'off'
+  action:
+  - scene: scene.covers_open
+- id: '18'
+  alias: Open Covers during holiday
+  trigger:
+  - platform: template
+    value_template: '{{ states(''input_datetime.coveropenholiday_time'').rsplit('':'',1)[0]
+      == states(''sensor.time'') }}
+
+      '
+  condition:
+  - condition: state
+    entity_id: input_boolean.holiday_mode_covers
+    state: 'on'
+  action:
+  - data:
+      entity_id: cover.qubino_beneden_voor_level
+      position: 100
+    service: cover.set_cover_position
+  - data:
+      entity_id: cover.qubino_beneden_achter_level
+      position: 100
+    service: cover.set_cover_position
+  - data:
+      entity_id: cover.fibaro_system_boven_achter_klein_level
+      position: 100
+    service: cover.set_cover_position
+  - data:
+      entity_id: cover.qubino_boven_voor_klein_level
+      position: 100
+    service: cover.set_cover_position
+  - data:
+      entity_id: cover.qubino_boven_voor_groot_level
+      position: 100
+    service: cover.set_cover_position
+  - data:
+      entity_id: cover.boven_achter_groot_level
+      position: 100
+    service: cover.set_cover_position
+- id: '19'
+  alias: Close front cover turn on light at set time
+  trigger:
+  - at: '21:00'
+    platform: time
+  condition:
+  - condition: state
+    entity_id: input_boolean.covers_nighttime
+    state: 'off'
+  action:
+  - data:
+      entity_id: cover.qubino_beneden_voor_level
+      position: 55
+    service: cover.set_cover_position
+  - data: {}
+    entity_id: light.booglamp
+    service: light.turn_on
+- id: '20'
+  alias: close covers in the evening
+  trigger:
+  - platform: numeric_state
+    entity_id: sun.sun
+    value_template: '{{ state.attributes.elevation }}'
+    below: -5
+  - platform: time
+    at: '22:25'
+  condition:
+  - condition: state
+    entity_id: input_boolean.covers_nighttime
+    state: 'off'
+  action:
+  - service: cover.set_cover_position
+    data:
+      entity_id: cover.qubino_beneden_voor_level
+      position: 0
+  - service: cover.set_cover_position
+    data:
+      entity_id: cover.qubino_beneden_achter_level
+      position: 0
+  - service: cover.set_cover_position
+    data:
+      entity_id: cover.fibaro_system_boven_achter_klein_level
+      position: 0
+  - service: cover.set_cover_position
+    data:
+      entity_id: cover.qubino_boven_voor_klein_level
+      position: 0
+  - service: cover.set_cover_position
+    data:
+      entity_id: cover.qubino_boven_voor_groot_level
+      position: 0
+  - service: cover.set_cover_position
+    data:
+      entity_id: cover.boven_achter_groot_level
+      position: 0
+  - service: homeassistant.turn_on
+    entity_id: input_boolean.covers_nighttime
+- id: '21'
+  alias: Open Covers on workdays (kids)
+  trigger:
+  - platform: template
+    value_template: '{{ states(''input_datetime.coverkidsopenworkday_time'').rsplit('':'',1)[0]
+      == states(''sensor.time'') }}
+
+      '
+  condition:
+  - condition: and
+    conditions:
+    - condition: time
+      weekday:
+      - mon
+      - tue
+      - wed
+    - condition: state
+      entity_id: input_boolean.holiday_mode_covers
+      state: 'off'
+  action:
+  - data:
+      entity_id: cover.boven_achter_groot_level
+      position: 100
+    service: cover.set_cover_position
+  - data:
+      entity_id: cover.fibaro_system_boven_achter_klein_level
+      position: 100
+    service: cover.set_cover_position
+- id: '22'
+  alias: Open Covers non workday (kids)
+  trigger:
+  - platform: template
+    value_template: '{{ states(''input_datetime.coverkidsopennonworkday_time'').rsplit('':'',1)[0]
+      == states(''sensor.time'') }}
+
+      '
+  condition:
+  - condition: and
+    conditions:
+    - condition: time
+      weekday:
+      - thu
+      - fri
+    - condition: state
+      entity_id: input_boolean.holiday_mode_covers
+      state: 'off'
+  action:
+  - data:
+      entity_id: cover.boven_achter_groot_level
+      position: 100
+    service: cover.set_cover_position
+  - data:
+      entity_id: cover.fibaro_system_boven_achter_klein_level
+      position: 100
+    service: cover.set_cover_position
+- id: '23'
+  alias: Close covers (kids)
+  trigger:
+    platform: time
+    at: '19:00'
+  condition:
+  - condition: state
+    entity_id: input_boolean.covers_nighttime
+    state: 'off'
+  action:
+  - service: cover.set_cover_position
+    data:
+      entity_id: cover.boven_achter_groot_level
+      position: 0
+  - service: cover.set_cover_position
+    data:
+      entity_id: cover.fibaro_system_boven_achter_klein_level
+      position: 0
+- id: '24'
+  alias: Close covers for sun
+  trigger:
+  - entity_id: sun.sun
+    platform: state
+  condition:
+  - condition: and
+    conditions:
+    - above: '105'
+      below: '240'
+      condition: numeric_state
+      entity_id: sun.sun
+      value_template: '{{ state.attributes.azimuth }}'
+    - condition: state
+      entity_id: sun.sun
+      state: above_horizon
+    - above: '14'
+      condition: numeric_state
+      entity_id: sun.sun
+      value_template: '{{ state.attributes.elevation }}'
+    - condition: state
+      entity_id: input_boolean.weather_mode_covers
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.holiday_mode
+      state: 'off'
+    - condition: state
+      entity_id: input_boolean.hot_day
+      state: 'off'
+    - condition: or
+      conditions:
+      - above: '25'
+        condition: numeric_state
+        entity_id: sensor.br_temperature_1d
+      - condition: and
+        conditions:
+        - above: '23'
+          condition: numeric_state
+          entity_id: sensor.br_temperature
+        - condition: template
+          value_template: '{{ states(''sensor.br_symbol'') == ''Vrijwel onbewolkt
+            (zonnig/helder)'' }}'
+  action:
+  - data:
+      entity_id: input_boolean.hot_day
+    service: input_boolean.turn_on
+  - scene: scene.covers_hot_day
+- id: '25'
+  alias: open covers after warm day
+  trigger:
+  - entity_id: sun.sun
+    platform: state
+  condition:
+  - condition: and
+    conditions:
+    - above: '15'
+      condition: numeric_state
+      entity_id: sun.sun
+      value_template: '{{ state.attributes.elevation }}'
+    - condition: state
+      entity_id: input_boolean.hot_day
+      state: 'on'
+    - condition: or
+      conditions:
+      - above: 265
+        condition: numeric_state
+        entity_id: sun.sun
+        value_template: '{{ state.attributes.azimuth }}'
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: input_boolean.clear_weather
+          state: 'off'
+        - below: '19'
+          condition: numeric_state
+          entity_id: sensor.br_temperature
+  action:
+  - data:
+      entity_id: cover.qubino_beneden_achter_level
+      position: 100
+    service: cover.set_cover_position
+  - data:
+      entity_id: cover.fibaro_system_boven_achter_klein_level
+      position: 100
+    service: cover.set_cover_position
+  - data:
+      entity_id: cover.qubino_boven_achter_groot_level
+      position: 100
+    service: cover.set_cover_position
+  - data:
+      entity_id: input_boolean.hot_day
+    service: input_boolean.turn_off
+- id: '26'
+  alias: PreventHighSetpoint
+  trigger:
+  - platform: template
+    value_template: '{{states("sensor.room_setpoint_living_room") |float > 20.5}}'
+  action:
+  - service: climate.set_temperature
+    entity_id: climate.thermostaat
+    data_template:
+      temperature: 20.5
+  - service: notify.kevinmi8
+    data:
+      message: 'Iemand zat aan de thermostaat {{states("sensor.room_setpoint_living_room")}},
+        no worries new setpoint: 20.5'
+- id: '27'
+  alias: Copy outside temperature
+  trigger:
+    platform: time_pattern
+    minutes: /15
+  action:
+    service: opentherm_gw.set_outside_temperature
+    data_template:
+      gateway_id: living_room
+      temperature: '{{states.sensor.buiten_sensor_temperature.state | float}}'
+- id: '28'
+  alias: Telegram callback to reply weather forecast
+  trigger:
+    platform: event
+    event_type: telegram_command
+    event_data:
+      command: /weer
+  action:
+  - service: telegram_bot.send_message
+    data_template:
+      title: '*Weer voor komende dagen*'
+      target: '{{ trigger.event.data.user_id }}'
+      message: "{{states.sensor.pws_weather_1d_metric.attributes.friendly_name}}:\
+        \ {{ states.sensor.pws_weather_1d_metric.state}}\n\n {{states.sensor.pws_weather_2d_metric.attributes.friendly_name}}:\n\
+        \ {{ states.sensor.pws_weather_2d_metric.state}}\n\n{{states.sensor.pws_weather_3d_metric.attributes.friendly_name}}:\
+        \ {{ states.sensor.pws_weather_3d_metric.state}}\n \n"
+- id: '29'
+  alias: Telegram - Fish reminder weekend
+  trigger:
+    platform: time
+    at: '9:15'
+  condition:
+  - condition: time
+    weekday:
+    - sat
+    - sun
+  action:
+  - service: notify.kevinmi8
+    data:
+      message: Het is weekend, denk je aan de vissen?
+- id: '30'
+  alias: Telegram - BTC alert
+  trigger:
+    platform: template
+    value_template: '{{states.sensor.exchange_rate_1_btc.state| float <3000 }}'
+  action:
+  - service: notify.kevinmi8
+    data:
+      message: BTC onder 3k, misschien even kijken :)
+- id: '31'
+  alias: Notify on boot
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition: []
+  action:
+  - data:
+      message: 'Current Version: {{ states(''sensor.current_version'') }}!'
+      title: HomeAssistant started
+    service: notify.mobile_app_mi_8_se
+- id: '33'
+  alias: Telegram callback to reply camera snapshot
+  trigger:
+    platform: event
+    event_type: telegram_command
+    event_data:
+      command: /snapshot
+  action:
+  - service: telegram_bot.send_message
+    data_template:
+      title: '*snapshot*'
+      target: '{{ trigger.event.data.user_id }}'
+      message: Welke camera?
+  - service: telegram_bot.edit_replymarkup
+    data_template:
+      message_id: last
+      chat_id: '{{ trigger.event.data.chat_id }}'
+      inline_keyboard:
+      - Carport:/carport, Tuin:/tuin, Baby:/yi
+      - Laat maar:/removekeyboard
+  - delay: 0:01
+  - service: telegram_bot.edit_replymarkup
+    data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.user_id }}'
+      inline_keyboard: []
+- id: '34'
+  alias: Telegram bot send image carport
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      data: /carport
+  action:
+  - service: telegram_bot.edit_replymarkup
+    data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.user_id }}'
+      inline_keyboard: []
+  - service: telegram_bot.answer_callback_query
+    data_template:
+      callback_query_id: '{{ trigger.event.data.id }}'
+      message: Carport selected
+  - service: telegram_bot.send_photo
+    data_template:
+      url: https://knetsooj.duckdns.org{{states.camera.carport.attributes.entity_picture}}
+      target: '{{ trigger.event.data.user_id }}'
+- id: '35'
+  alias: Telegram bot send image tuin
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      data: /tuin
+  action:
+  - service: telegram_bot.edit_replymarkup
+    data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.user_id }}'
+      inline_keyboard: []
+  - service: telegram_bot.answer_callback_query
+    data_template:
+      callback_query_id: '{{ trigger.event.data.id }}'
+      message: Tuin selected
+  - service: telegram_bot.send_photo
+    data_template:
+      url: https://knetsooj.duckdns.org{{states.camera.tuin.attributes.entity_picture}}
+      target: '{{ trigger.event.data.user_id }}'
+- id: '36'
+  alias: Telegram bot send image yi
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      data: /yi
+  action:
+  - service: telegram_bot.edit_replymarkup
+    data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.user_id }}'
+      inline_keyboard: []
+  - service: telegram_bot.answer_callback_query
+    data_template:
+      callback_query_id: '{{ trigger.event.data.id }}'
+      message: Baby selected
+  - service: telegram_bot.send_photo
+    data_template:
+      url: https://knetsooj.duckdns.org{{states.camera.yi.attributes.entity_picture}}
+      target: '{{ trigger.event.data.user_id }}'
+- id: '37'
+  alias: Telegram callback to test stuff
+  trigger:
+    platform: event
+    event_type: telegram_command
+    event_data:
+      command: /scene
+  action:
+  - service: telegram_bot.send_message
+    data_template:
+      target: '{{ trigger.event.data.user_id }}'
+      message: Kies een Scene
+      inline_keyboard:
+      - Alles uit:/LightOff, Normaal:/LightNormal, Film:/LightDimmed
+      - Terug:/removekeyboard
+- id: '38'
+  alias: Telegram bot start scene
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      data: /LightOff
+  action:
+  - service: telegram_bot.edit_replymarkup
+    data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.user_id }}'
+      inline_keyboard: []
+  - service: telegram_bot.answer_callback_query
+    data_template:
+      callback_query_id: '{{ trigger.event.data.id }}'
+      message: Alle lichten uit
+  - service: scene.turn_on
+    entity_id: scene.All_lights_off
+- id: '39'
+  alias: Telegram bot start scene normaal
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      data: /LightNormal
+  action:
+  - service: telegram_bot.edit_replymarkup
+    data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.user_id }}'
+      inline_keyboard: []
+  - service: telegram_bot.answer_callback_query
+    data_template:
+      callback_query_id: '{{ trigger.event.data.id }}'
+      message: Normaal
+  - service: scene.turn_on
+    entity_id: scene.background_lights
+- id: '40'
+  alias: Telegram bot start scene dimmed
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      data: /LightDimmed
+  action:
+  - service: telegram_bot.edit_replymarkup
+    data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.user_id }}'
+      inline_keyboard: []
+  - service: telegram_bot.answer_callback_query
+    data_template:
+      callback_query_id: '{{ trigger.event.data.id }}'
+      message: Film
+  - service: scene.turn_on
+    entity_id: scene.Dimmed_lights_movie
+- id: '1585379364959'
+  alias: Set light theme
+  description: ''
+  trigger:
+  - at: '6:00'
+    platform: time
+  condition: []
+  action:
+  - data:
+      name: Google Light Theme
+    service: frontend.set_theme
+- id: '1585379705879'
+  alias: Zwave ready
+  description: ''
+  trigger:
+  - event_data: {}
+    event_type: zwave.network_complete
+    platform: event
+  condition: []
+  action:
+  - data: {}
+    entity_id: input_boolean.zwave_ready
+    service: homeassistant.turn_on
+- id: '1590404145973'
+  alias: Telegram wasmachine klaar
+  description: ''
+  trigger:
+  - entity_id: input_boolean.wasmachine_droger
+    for: 00:05:00
+    from: 'on'
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - data:
+      message: Wasmachine is klaar
+    service: notify.kevinmi8
+- id: '1591276429324'
+  alias: Telegram Reminder containers
+  description: ''
+  trigger:
+  - at: '18:30'
+    platform: time
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: sensor.peelenmaas_morgen
+      state: Geen
+  action:
+  - data:
+      message: '{{"Let op!! Morgen "+ states.sensor.peelenmaas_morgen.state + " afval"}}'
+    service: notify.mobile_app_mi_9_se
+  - data:
+      message: '{{"Let op!! Morgen "+ states.sensor.peelenmaas_morgen.state + " afval"}}'
+    service: notify.mobile_app_mi_8_se
+- id: '1593610881012'
+  alias: Notify new update
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.updater
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      data:
+        actions:
+        - action: URI
+          title: Open Release Notes
+          uri: https://www.home-assistant.io/latest-release-notes/
+        - action: UpdateHass
+          title: Update
+      message: 'New Version: {{ state_attr(''binary_sensor.updater'', ''newest_version'')
+        }}!'
+      title: Update available
+    service: notify.mobile_app_mi_8_se
+- id: '1593615398208'
+  alias: Update Hass
+  description: ''
+  trigger:
+  - event_data:
+      action: UpdateHass
+    event_type: mobile_app_notification_action
+    platform: event
+  condition: []
+  action:
+  - data:
+      message: 'New Version: {{ state_attr(''binary_sensor.updater'', ''newest_version'')
+        }}!'
+      title: Update started
+    service: notify.mobile_app_mi_8_se
+  - data: {}
+    service: shell_command.upgrade_hass

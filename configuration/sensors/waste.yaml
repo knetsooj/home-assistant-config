@@ -1,0 +1,75 @@
+# Afval sensor oud
+#
+#- platform: scrape
+#  resource: !secret afvalkalenderURL
+#  name: Afval soort1
+#  select: "div.col1-3.wanneer li:nth-of-type(1) a i:nth-of-type(2)"
+#  scan_interval: 21600
+#
+#- platform: scrape
+#  resource: !secret afvalkalenderURL
+#  name: Afval soort2
+#  select: "div.col1-3.wanneer li:nth-of-type(2) a i:nth-of-type(2)"
+#  scan_interval: 21600
+#
+#- platform: scrape
+#  resource: !secret afvalkalenderURL
+#  name: Afval datum1
+#  select: "div.col1-3.wanneer li:nth-of-type(1) a i:nth-of-type(1)"
+#  scan_interval: 21600
+#
+#- platform: scrape
+#  resource: !secret afvalkalenderURL
+#  name: Afval datum2
+#  select: "div.col1-3.wanneer li:nth-of-type(2) a i:nth-of-type(1)"
+#  scan_interval: 21600
+## compare last two entries from scrape and combine if date is identical.
+#- platform: template
+#  sensors:
+#    afval_soort:
+#      friendly_name: 'Type'
+#      value_template: >-
+#        {% if states("sensor.afval_datum1") == states("sensor.afval_datum2") -%}
+#          {{states("sensor.afval_soort1")}} + {{states("sensor.afval_soort2")}}
+#        {%- else -%}
+#          {{states("sensor.afval_soort1")}}
+#        {%- endif %}
+## is time to binday less then 14 hours?
+#- platform: template
+#  sensors:
+#    bins_out_offset:
+#      friendly_name: "Bins out offset"
+#      value_template: >
+#        {% set months= ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'] %}
+#        {% set monthnum = months.index(states.sensor.afval_datum1.state.split()[2]) + 1 %}
+#        {% if monthnum | int < 10 %} 
+#          {% set monthnum = '0' + monthnum | string %} 
+#        {% endif %}
+#        {% set daynum = states.sensor.afval_datum1.state.split()[1] %}
+#        {% if daynum | int < 10 %}
+#          {% set daynum = '0' + daynum |string %}
+#        {% endif %}
+#        {% set bindaystart = (now().year | string + '-' + monthnum | string + '-' + daynum | string+ ', 08:00') %}
+#        {% set bindayend = (now().year | string + '-' + monthnum | string + '-' + daynum | string + ', 09:00') %}
+#        {% set tsbindaystart = as_timestamp(strptime(bindaystart, "%Y-%m-%d, %H:%M")) %}
+#        {% set tsbindayend = as_timestamp(strptime(bindayend, "%Y-%m-%d, %H:%M")) %}
+#        {% set tsnow =as_timestamp(strptime(states.sensor.date_time.state, "%Y-%m-%d, %H:%M")) %}
+#        {% if tsbindaystart - tsnow < 50400 and tsbindayend > tsnow %}on{% else %}off{% endif %}
+        
+# Afval sensor 
+- platform: afvalbeheer
+  wastecollector: !secret afvalbeheer          
+  resources:                     
+    - restafval
+    - gft
+    - papier
+    - pmd
+  postcode: !secret afvalbeheerPC               
+  streetnumber: 4                
+  upcomingsensor: 1              
+  dateformat: '%d-%m-%Y'         
+  dateonly: 0                    
+  name: ""                       
+  nameprefix: 1                  
+  builtinicons: 0                
+  dutch: 1                      

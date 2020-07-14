@@ -1,0 +1,33 @@
+# Generic ignores
+*.log
+*.db
+*.db-shm
+*.db-wal
+*.pyc
+._*
+__pycache__
+
+# Directory (contents) ignores
+.cloud
+.storage
+.ssh
+deps
+
+# Specific file ignores
+.spotify-token-cache
+.tradfri_psk.conf
+.uuid
+core
+html5_push_registrations.conf
+ip_bans.yaml
+known_devices.yaml
+options.xml
+OZW_Log.txt
+pyozw.sqlite
+secrets.yaml
+zwcfg_*
+zwscene.xml
+mind.conf
+customize.yaml
+# Specific keeps
+!.gitkeep

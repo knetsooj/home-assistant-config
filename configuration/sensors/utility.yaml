@@ -1,0 +1,35 @@
+#Pvoutput
+#- platform: pvoutput
+#  system_id: !secret PVsystem
+#  api_key: !secret PVapi
+#  scan_interval: 120 
+  
+# - platform: template
+  # sensors:
+      # # power_consumption:
+        # # value_template: '{% if is_state_attr("sensor.pvoutput", "power_consumption", "NaN") %}0{% else %}{{ states.sensor.pvoutput.attributes.power_consumption }}{% endif %}'
+        # # friendly_name: 'Using'
+        # # unit_of_measurement: 'Watt'
+      # energy_consumption:
+        # value_template: '{{ "%0.1f"|format(states.sensor.pvoutput.attributes.energy_consumption|float/1000) }}'
+        # friendly_name: 'Used'
+        # unit_of_measurement: 'kWh'
+      # # power_production:
+        # # value_template: '{% if is_state_attr("sensor.pvoutput", "power_generation", "NaN") %}0{% else %}{{ states.sensor.pvoutput.attributes.power_generation }}{% endif %}'
+        # # friendly_name: 'Producing'
+        # # unit_of_measurement: 'Watt'
+      # energy_production:
+        # value_template: '{% if is_state_attr("sensor.pvoutput", "energy_generation", "NaN") %}0{% else %}{{ "%0.2f"|format(states.sensor.pvoutput.attributes.energy_generation|float/1000) }}{% endif %}'
+        # friendly_name: 'Produced'
+        # unit_of_measurement: 'kWh'  
+        
+- platform: template
+  sensors:
+    grid_energy_consumption_daily:
+      friendly_name: daily_power_consumption
+      unit_of_measurement: kWh
+      value_template: "{{ states('sensor.grid_energy_consumption_daily_offpeak')|float + states('sensor.grid_energy_consumption_daily_peak')|round(3) }}"
+    grid_energy_production_daily:
+      friendly_name: daily_power_production
+      unit_of_measurement: kWh
+      value_template: "{{ states('sensor.grid_energy_production_daily_offpeak')|float + states('sensor.grid_energy_production_daily_peak')|round(3) }}"

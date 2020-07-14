@@ -1,0 +1,17 @@
+upgrade_hass:  !secret shell_upgrade_hass
+carportcampos1: !secret shell_carport_cam_url_1
+carportcampos2: !secret shell_carport_cam_url_2
+# PVOutput.org  
+#   pvoutputcurl: '(
+#               curl -d "d={{now().strftime("%Y%m%d")}}" 
+#                    -d "t={{now().strftime("%H:%M")}}"
+#                    -d "v1={{states.sensor.pv_energy_daily.state|round(0)}}"
+#                    -d "v2={{states.sensor.solaredge_ac_power.state|round(0)*1000}}" 
+#                    -d "v3={{states.sensor.grid_energy_consumption_daily.state|round(0)}}" 
+#                    -d "v4={{states.sensor.power_consumption.state|round(0)}}" 
+#                    -d "v5={{states.sensor.br_temperature.state|round(1)}}" 
+#                    -d "v6={{states.sensor.solaredge_ac_voltage_ab.state|round(1)}}" 
+#                    -H "X-Pvoutput-Apikey: ad6d75445b4b32bf65dc0d92f19f2889e2ff92fa" 
+#                    -H "X-Pvoutput-SystemId: 46558" https://pvoutput.org/service/r2/addstatus.jsp'
+#                        )
+                        

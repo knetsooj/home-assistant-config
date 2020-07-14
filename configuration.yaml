@@ -1,0 +1,248 @@
+homeassistant:
+  customize: !include configuration/customization.yaml
+#Configure http access
+http:
+breaking_changes:
+
+#default_config:
+config: 
+updater:
+history:
+mobile_app:
+system_health:
+sun:
+map:
+
+# Enables the frontend with themes
+frontend:
+  themes: !include_dir_merge_named themes  
+# Discover some devices automatically
+discovery:
+  ignore:
+    - songpal
+    - belkin_wemo
+
+# Enables support for tracking state changes over time.
+#Logger to show log entries
+logger:
+  default: warn
+  logs:
+    homeassistant.components.updater: debug
+    homeassistant.components.automation: info
+    homeassistant.components.notify: info
+#    homeassistant.components.recorder: debug
+    homeassistant.components.script: error
+    homeassistant.components.sensor: error
+#    homeassistant.components.binary_sensor: info
+#    homeassistant.components.switch: error
+    homeassistant.components.mqtt: error
+#    homeassistant.components.light: error
+logbook:
+  include:
+    domains:
+      - automation
+      - switch
+recorder:
+  purge_keep_days: 30
+  include:
+    domains:
+      - device_tracker
+    entities:
+      - sensor.solaredge_ac_power
+      - sensor.solaredge_ac_energy_kwh
+      - sensor.pv_energy_daily
+      - sensor.grid_energy_consumption_daily
+      - sensor.grid_energy_production_daily
+      - sensor.gas_daily
+      - sensor.power_production
+      - sensor.power_consumption
+      - sensor.energy_production_low
+      - sensor.energy_production_normal
+      - sensor.energy_consumption_low
+      - sensor.energy_consumption_normal
+      - sensor.gas
+      - sensor.br_temperature
+      - sensor.room_temperature
+      - sensor.exchange_rate_1_btc
+  exclude:
+    domains:
+      - sensor
+      
+#influxdb:  
+# Define iframes
+panel_iframe:
+  pvoutput:
+    title: PVoutput 
+    icon: 'mdi:vector-polyline'
+    url:  !secret panel_pvoutput_url
+  nodered:
+    title: NodeRed 
+    icon: 'mdi:sitemap'
+    url:  !secret panel_nodered_url
+  portainer:
+    title: Portainer 
+    icon: 'mdi:docker'
+    url:  !secret panel_portainer_url
+
+#HDMI CEC
+#devices:
+#    0: TV
+#    1: RPI
+#    3:
+#      1: RPI
+#      4: Video2
+#      5: Ziggo
+
+automation: !include automations.yaml
+camera: !include configuration/camera.yaml
+device_tracker: !include configuration/device_tracker.yaml
+#group: !include configuration/groups.yaml
+input_boolean: 
+input_number: 
+input_select:
+input_datetime:
+input_text:
+light: !include configuration/light.yaml
+media_player: !include configuration/media_player.yaml
+notify: !include configuration/notify.yaml
+#panel_iframe: !include_dir_merge_named panel_iframe/
+plant: !include configuration/plant.yaml
+rest_command: !include configuration/rest_command.yaml
+scene: !include scenes.yaml
+script: !include scripts.yaml
+sensor: !include_dir_merge_list configuration/sensors
+binary_sensor: !include configuration/binary_sensor.yaml
+shell_command: !include configuration/shell_command.yaml
+switch: !include configuration/switches.yaml
+zwave:
+  device_config:
+    cover.fibaro_system_boven_achter_klein_level:
+      invert_openclose_buttons: true
+      invert_percent: true
+
+#influxdb:
+#  host: 127.0.0.1
+#  database: homeassistant
+#  username: !secret influxdb_user
+#  password: !secret influxdb_password
+#  include:
+#    entities:
+#    - climate.thermostaat
+#    - sensor.stroom
+#    - sensor.gas
+#    - sensor.solaredge_ac_energy_kwh
+#    - sensor.energy_consumption_low
+#    - sensor.energy_consumption_normal
+    
+telegram_bot:
+  - platform: polling
+    api_key: !secret telegram_API
+    parse_mode: html
+    allowed_chat_ids: !secret telegram_Chat_ID
+
+utility_meter:
+  gas_daily:
+    source: sensor.gas
+    cycle: daily 
+  gas_monthly:
+    source: sensor.gas
+    cycle: monthly
+  grid_energy_consumption_daily_offpeak:
+    source: sensor.energy_consumption_low
+    cycle: daily
+
+  grid_energy_consumption_daily_peak:
+    source: sensor.energy_consumption_normal
+    cycle: daily
+
+  grid_energy_consumption_monthly:
+    source: sensor.grid_energy_consumption_daily
+    cycle: monthly
+    
+  grid_energy_production_daily_offpeak:
+    source: sensor.energy_production_low
+    cycle: daily
+  
+  grid_energy_production_daily_peak:
+    source: sensor.energy_production_normal
+    cycle: daily 
+  
+  grid_energy_production_monthly:
+    source: sensor.grid_energy_production_daily
+    cycle: monthly
+    
+  pv_energy_daily:  
+    source: sensor.solaredge_ac_energy_kwh
+    cycle: daily
+  pv_energy_monthly:
+    source: sensor.solaredge_ac_energy_kwh
+    cycle: monthly  
+
+fastdotcom:
+ 
+#Seat API 
+mind:
+  username: !secret Seat_mail
+  password: !secret Seat_password
+  client_id: 8ba04cb3869f4b568ea54fc57154d957
+  client_secret: b7fD6c394a7c4aFd998afA70Cb5fED86
+  
+#Wake on Lan
+wake_on_lan:
+
+#Neeo
+neeo:
+  host: 10.4.1.22
+
+#spotify
+spotify:
+  client_id: !secret Spotify_clientid
+  client_secret: !secret Spotify_clientSecret
+
+#Stream camera
+stream:
+
+#OctoPrint
+octoprint:
+  host: !secret OctoPrintHost
+  api_key: !secret OctoPrintAPI
+  bed: true
+  number_of_tools: 2
+  
+#Google home
+google_assistant:
+  project_id: !secret google_project
+ # api_key: !secret google_api
+  exposed_domains:
+    - switch
+    - light
+#    - group
+    - climate 
+    - media_player
+    - covers
+  entity_config:
+    switch.kitchen:
+      name: thuis
+      aliases:
+        - BRIGHT_LIGHTS
+        - ENTRY_LIGHTS
+    light.living_room:
+      expose: false
+      room: LIVING_ROOM
+      
+circadian_lighting: 
+  min_colortemp: 2200
+  max_colortemp: 4000
+  interval: 600
+  transition: 30    
+#Text To Speech
+tts:
+  - platform: google_translate
+
+#Weather
+weather:
+  - platform: buienradar
+    name: buienradar
+  - platform: darksky
+    api_key: !secret DarkskyAPI
+    mode: daily

@@ -1,0 +1,87 @@
+#Uptime
+- platform: uptime
+
+#Actual date and time
+- platform: time_date
+  display_options:
+    - 'date_time'
+    - 'time'
+    - 'date'
+#Yesterday
+- platform: template
+  sensors:
+    yesterday:
+      friendly_name: "yesterday"
+      entity_id: sensor.date
+      value_template: "{{ (as_timestamp(now()) - (24*3600)) | timestamp_custom('%Y-%m-%d', True) }}"       
+
+#sun template
+- platform: template
+  sensors:
+    zonsopkomst:
+      value_template: '{{ ((as_timestamp(states.sun.sun.attributes.next_rising)) | timestamp_local) [11:16] }}'
+      friendly_name: 'Zonsopkomst'
+    zonsondergang:
+      value_template: '{{ ((as_timestamp(states.sun.sun.attributes.next_setting)) | timestamp_local) [11:16] }}'
+      friendly_name: 'Zonsondergang'
+    solar_elevation:
+      friendly_name: "Sun elevation"
+      unit_of_measurement: 'degrees'
+      value_template: "{{ states.sun.sun.attributes.elevation }}"
+    solar_azimuth:
+      friendly_name: "Sun azimuth"
+      unit_of_measurement: 'degrees'
+      value_template: "{{ states.sun.sun.attributes.azimuth }}"
+      
+#scrape
+# Diesel sensor
+- platform: scrape
+  resource: !secret tankstationURL
+  name: Diesel prijs
+  select: "div.pricing.closed div.pump_price span.price"
+  scan_interval: 3600
+- platform: scrape
+  resource: !secret tankstationURL
+  name: Diesel adviesprijs
+  select: "div.pricing.closed div.proposed_price span.price"
+  scan_interval: 3600
+- platform: scrape
+  resource: !secret tankstationURL
+  name: Diesel korting
+  select: "div.pricing.closed div.discount span.price"
+  scan_interval: 3600
+  
+#Bitcoin
+- platform: bitcoin
+  currency: EUR
+  display_options:
+    - exchangerate  
+ 
+ #DSMR
+#- platform: dsmr
+#  port: /dev/ttyUSB0
+#  dsmr_version: 4
+
+#climate
+- platform: template
+  sensors:
+      room_temperature:
+        value_template: '{{states.climate.thermostaat.attributes.current_temperature}}'
+        friendly_name: 'Kamer temperature'
+        unit_of_measurement: '°C'
+      room_setpoint:
+        value_template: '{{states.climate.thermostaat.attributes.temperature}}'
+        friendly_name: 'Kamer setpoint'
+        unit_of_measurement: '°C'
+
+# Systemmonitor
+- platform: systemmonitor
+  resources:
+    - type: disk_use_percent
+      arg: /home
+    - type: memory_free 
+    - type: last_boot
+    - type: load_15m
+ 
+#Version
+- platform: version

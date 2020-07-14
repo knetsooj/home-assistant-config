@@ -1,0 +1,11 @@
+# Goedemorgen Steffie
+#- id: 'telegrammornignweather'
+#  alias: 'Telegram bot to inform about the local weather'
+#  trigger:
+#    platform: time
+#    at: '6:15'
+#  condition: []
+#  action:
+#  - service: notify.steffiemi4x
+#    data_template:
+#      message: '{{"Goedemorgen Steffie, Het weer voor vandaag: " + states.sensor.br_symbol.state + " Max: " + states.sensor.br_temperature_1d.state +"°C - Min: " + states.sensor.br_minimum_temperature_1d.state + "°C, Ongeveer " + states.sensor.br_rainchance_1d.state + "% kans op neerslag."}}'

@@ -1,0 +1,38 @@
+##Lucy (LG VacuumRobot)  
+#- platform: command_line
+#  name: "Hombot Status"
+#  command: "python3 /home/homeassistant/.homeassistant/scripts/python/hombot_retrieve_status.py 'JSON_ROBOT_STATE'"
+#  value_template: "{{ value | capitalize() }}"
+#  scan_interval: 10
+# 
+#- platform: command_line  
+#  name: "Hombot Battery"
+#  command: "python3 /home/homeassistant/.homeassistant/scripts/python/hombot_retrieve_status.py 'JSON_BATTPERC'"
+#  unit_of_measurement: '%'
+#  scan_interval: 60
+# 
+#- platform: command_line  
+#  name: "Hombot Last Clean"
+#  command: "python3 /home/homeassistant/.homeassistant/scripts/python/hombot_retrieve_status.py 'CLREC_LAST_CLEAN'"
+#  value_template: >-
+#   {%- if value == "n/a" -%}
+#      n/a
+#    {%- else -%}
+#      {{ value.split('/')[2] }}/{{ value.split('/')[1] }}/{{ value.split('/')[0] }} {{ value.split('/')[3] }}:{{ value.split('/')[4] }}
+#    {%- endif -%}
+#  scan_interval: 60
+  
+#- platform: command_line  
+#  name: "Hombot finished ZZ"
+#  command: "python3 /home/homeassistant/.homeassistant/scripts/python/hombot_retrieve_statistic.py 'NUM FINISH ZZ'"
+#  scan_interval: 60
+#  
+#- platform: command_line 
+#  name: "Hombot finished SB"
+#  command: "python3 /home/homeassistant/.homeassistant/scripts/python/hombot_retrieve_statistic.py 'NUM FINISH SB'"
+#  scan_interval: 60
+#
+#- platform: command_line  
+#  name: "Hombot finished SPOT"
+#  command: "python3 /home/homeassistant/.homeassistant/scripts/python/hombot_retrieve_statistic.py 'NUM FINISH SPOT'"
+#  scan_interval: 60

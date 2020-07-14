@@ -1,0 +1,29 @@
+#- alias: mediaPlayer_stopped
+#  trigger:
+#    - platform: state
+#      entity_id: media_player.kodi_rpi
+#      from: 'playing'
+#  condition:
+#    condition: state
+#    entity_id: light.qubino_salontafel_level
+#    state: 'on'
+#  action:
+#    service: light.turn_on
+#    entity_id: light.qubino_salontafel_level
+#    data:
+#      brightness: 40
+#
+#- alias: mediaPlayer_playing
+#  trigger:
+#    - platform: state
+#      entity_id: media_player.kodi_rpi
+#      to: 'playing'
+#  condition:
+#    condition: state
+#    entity_id: light.qubino_salontafel_level
+#    state: 'on'
+#  action:
+#    service: light.turn_on
+#    entity_id: light.qubino_salontafel_level
+#    data:
+#      brightness: 20

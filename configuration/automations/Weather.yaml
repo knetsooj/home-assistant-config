@@ -1,0 +1,20 @@
+alias: 'clear weather delay' 
+trigger:
+- platform: template 
+  value_template: "{{ states('sensor.br_symbol') != 'Vrijwel onbewolkt (zonnig/helder)' }}"
+  for:
+    minutes: 25
+action:
+ - service: input_boolean.turn_off
+   entity_id: input_boolean.clear_weather
+
+#- alias: 'clear weather' 
+#  trigger:
+#    platform: template 
+#    value_template: "{{ states('sensor.br_symbol') == 'Vrijwel onbewolkt (zonnig/helder)' }}"
+#    for:
+#      minutes: 10
+#  action:
+#   - service: input_boolean.turn_on
+#     entity_id: input_boolean.clear_weather  
+ 

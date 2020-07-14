@@ -1,0 +1,80 @@
+## Update light when slider has changed
+#- alias: Salontafel_dimm
+#  trigger:
+#    platform: state
+#    entity_id: input_number.Salontafel_dimm
+#  action:
+#   - service: light.turn_on
+#     data_template:
+#       entity_id: light.qubino_salontafel_level
+#       brightness: '{{ trigger.to_state.state | round }}'
+## Update slider when light has changed
+##- alias: Salontafel_slider
+##  trigger:
+##    platform: state
+##    entity_id: light.qubino_zmnhdd1_flush_dimmer_level_2_0
+##  condition:
+##    condition: template
+##    value_template: '{{states.light.qubino_zmnhdd1_flush_dimmer_level_2_0.attributes.brightness != states.input_number.Salontafel_dimm.state}}'
+##  action:
+##   - service: input_number.select_value
+##     data_template:
+##       entity_id: input_number.Salontafel_dimm
+##       brightness: '{{ trigger.to_state.state | round }}'
+#
+## Update light when slider has changed       
+#- alias: Eettafel_dimm
+#  trigger:
+#    platform: state
+#    entity_id: input_number.eettafel_dimm
+#  action:
+#   - service: light.turn_on
+#     data_template:
+#       entity_id: light.qubino_eettafel_level
+#       brightness: '{{ trigger.to_state.state | round }}'
+## Update slider when light has changed
+#- alias: Eettafel_slider
+#  trigger:
+#    platform: state
+#    entity_id: light.qubino_eettafel_level
+#  condition:
+#    condition: template
+#    value_template: '{{states.light.qubino_eettafel_level.attributes.brightness!= states.input_number.eettafel_dimm.state | round}}'
+#  action:
+#   - service: input_number.select_value
+#     data_template:
+#       entity_id: input_number.eettafel_dimm
+#       brightness: '{{ trigger.to_state.state | round }}'
+#
+## Update light when slider has changed       
+#- alias: Keukenspots_dimm
+#  trigger:
+#    platform: state
+#    entity_id: input_number.keukenspots_dimm
+#  action:
+#   - service: light.turn_on
+#     data_template:
+#       entity_id: light.qubino_keukenspots_level
+#       brightness: '{{ trigger.to_state.state | round }}'
+## Update slider when light has changed     
+##- alias: Keukenspots_slider
+##  trigger:
+##    platform: state
+##    entity_id: light.qubino_zmnhda2_flush_dimmer_level_4_0
+##  condition:
+##    condition: template
+##    value_template: '{{states.light.qubino_zmnhda2_flush_dimmer_level_4_0.attributes.brightness != states.input_number.keukenspots_dimm.state}}'
+##  action:
+##   - service: input_number.select_value
+##     data_template:
+##       entity_id: input_number.keukenspots_dimm
+##       brightness: '{{ trigger.to_state.state | round }}'    
+# - alias: Booglamp_dimm
+#  trigger:
+#    platform: state
+#    entity_id: input_number.booglamp_dimm
+#  action:
+#   - service: light.turn_on
+#     data_template:
+#       entity_id: light.booglam
+#       brightness: '{{ trigger.to_state.state | round }}'  
