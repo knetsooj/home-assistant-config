@@ -3,7 +3,6 @@
 ![Project Maintenance][maintenance-shield]
 [![License][license-shield]](LICENSE.md)
 
-[![GitLab CI][gitlabci-shield]][gitlabci]
 [![GitHub Activity][commits-shield]][commits]
 [![GitHub Last Commit][last-commit-shield]][commits]
 
@@ -30,7 +29,7 @@ This is my personal Home Assistant configuration, running my home automations.
 [home-assistant]: https://home-assistant.io
 [issue]: https://github.com/knetsooj/home-assistant-config/issues
 [license-shield]: https://img.shields.io/github/license/knetsooj/home-assistant-config.svg
-[maintenance-shield]: https://img.shields.io/maintenance/yes/2019.svg
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2020.svg
 [last-commit-shield]: https://img.shields.io/github/last-commit/knetsooj/home-assistant-config.svg
 [stars-shield]: https://img.shields.io/github/stars/knetsooj/home-assistant-config.svg?style=social&label=Stars
 [forks-shield]: https://img.shields.io/github/forks/knetsooj/home-assistant-config.svg?style=social&label=Forks
