@@ -1,5 +1,9 @@
 homeassistant:
-  customize: !include configuration/customization.yaml
+    auth_providers:
+    - type: homeassistant
+    - type: trusted_networks
+      trusted_networks:
+        - 10.4.1.0/24
 #Configure http access
 http:
 breaking_changes:
@@ -114,11 +118,11 @@ sensor: !include_dir_merge_list configuration/sensors
 binary_sensor: !include configuration/binary_sensor.yaml
 shell_command: !include configuration/shell_command.yaml
 switch: !include configuration/switches.yaml
-zwave:
-  device_config:
-    cover.fibaro_system_boven_achter_klein_level:
-      invert_openclose_buttons: true
-      invert_percent: true
+#zwave:
+#  device_config:
+#    cover.fibaro_system_boven_achter_klein_level:
+#      invert_openclose_buttons: true
+#      invert_percent: true
 
 #influxdb:
 #  host: 127.0.0.1

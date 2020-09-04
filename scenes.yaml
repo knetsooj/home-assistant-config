@@ -1,337 +1,22 @@
 - id: scene1
   name: background_lights
   entities:
-    light.qubino_salontafel_level:
-      state: 'on'
-      brightness: 40
-    light.qubino_eettafel_level:
-      state: 'on'
-      brightness: 50
     light.booglamp:
+      brightness: 21
+      color_temp: 337
+      friendly_name: Booglamp
+      max_mireds: 454
+      min_mireds: 250
       state: 'on'
-      brightness: 30
+      supported_features: 35
+    light.eettafel_level:
+      brightness: 39
+      friendly_name: 'Eettafel: Level'
+      node_id: 3
+      state: 'on'
+      supported_features: 33
     light.rgbwhaard:
-      state: 'on'
-      transition: 60
-      xy_color:
-      - 0.323
-      - 0.329
-      white_value: 30
       brightness: 1
-- id: scene2
-  name: Dimmed_lights_movie
-  entities:
-    light.qubino_salontafel_level:
-      state: 'on'
-      brightness: 20
-    light.qubino_eettafel_level:
-      state: 'on'
-      brightness: 50
-    light.booglamp:
-      state: 'off'
-- id: scene3
-  name: Spots_Kitchen_Dim
-  entities:
-    light.qubino_keuken_spots_level:
-      state: 'on'
-      brightness: 15
-- id: scene4
-  name: Spots_Kitchen_Normal
-  entities:
-    light.qubino_keuken_spots_level:
-      state: 'on'
-      brightness: 85
-- id: scene5
-  name: Morning First Motion
-  entities:
-    light.qubino_keuken_spots_level:
-      state: 'on'
-      brightness: 65
-    light.qubino_salontafel_level:
-      state: 'on'
-      brightness: 20
-- id: scene6
-  name: All_lights_off
-  entities:
-    light.qubino_salontafel_level:
-      state: false
-    light.qubino_eettafel_level:
-      state: false
-    light.qubino_keuken_level:
-      state: false
-    light.qubino_keuken_spots_level:
-      state: false
-    light.qubino_terras_spots_level:
-      state: false
-    light.booglamp:
-      state: false
-    light.rgbwhaard:
-      state: false
-- id: '1580499515917'
-  name: Covers Closed
-  entities:
-    cover.fibaro_system_boven_achter_klein_level:
-      current_position: 100
-      friendly_name: Boven achter klein
-      node_id: 11
-      power_consumption: 0
-      state: open
-      supported_features: 15
-      value_id: '72057594227294209'
-      value_index: 0
-      value_instance: 1
-    cover.qubino_beneden_voor_level:
-      current_position: 0
-      friendly_name: beneden voor
-      node_id: 18
-      power_consumption: 133.3
-      state: closed
-      supported_features: 15
-      value_id: '72057594344734721'
-      value_index: 0
-      value_instance: 1
-    cover.qubino_boven_voor_groot_level:
-      current_position: 100
-      friendly_name: Boven voor groot
-      node_id: 13
-      power_consumption: 0
-      state: open
-      supported_features: 15
-      value_id: '72057594260848641'
-      value_index: 0
-      value_instance: 1
-    cover.qubino_boven_voor_klein_level:
-      current_position: 0
-      friendly_name: Boven voor klein Level
-      node_id: 12
-      power_consumption: 0
-      state: closed
-      supported_features: 15
-      value_id: '72057594244071425'
-      value_index: 0
-      value_instance: 1
-    cover.rolluik_boven_achter_level:
-      current_position: 0
-      friendly_name: Rolluik boven achter Level
-      node_id: 23
-      power_consumption: 96.3
-      state: closed
-      supported_features: 15
-      value_id: '72057594428620801'
-      value_index: 0
-      value_instance: 1
-    switch.qubino_beneden_voor_switch:
-      restored: true
-      state: unavailable
-      supported_features: 0
-    zwave.boven_voor_klein:
-      application_version: '1.01'
-      averageRequestRTT: 30
-      averageResponseRTT: 66
-      capabilities:
-      - beaming
-      - zwave_plus
-      - routing
-      - listening
-      friendly_name: Boven voor klein
-      is_awake: true
-      is_failed: false
-      is_info_received: true
-      is_ready: true
-      is_zwave_plus: true
-      lastRequestRTT: 23
-      lastResponseRTT: 61
-      manufacturer_name: Qubino
-      max_baud_rate: 40000
-      neighbors:
-      - 1
-      - 3
-      - 4
-      - 13
-      - 17
-      - 18
-      node_id: 12
-      node_name: Qubino ZMNHCDx Flush Shutter
-      product_name: ZMNHCDx Flush Shutter
-      query_stage: Complete
-      receivedCnt: 20
-      receivedDups: 0
-      receivedTS: '2020-02-21 12:00:08:443 '
-      receivedUnsolicited: 5
-      retries: 0
-      sentCnt: 23
-      sentFailed: 0
-      sentTS: '2020-02-21 11:59:40:101 '
-      state: ready
-    zwave.fibaro_system_fgrm222_roller_shutter_controller_2:
-      application_version: '25.25'
-      averageRequestRTT: 392
-      averageResponseRTT: 2110
-      capabilities:
-      - beaming
-      - routing
-      - listening
-      friendly_name: FIBARO System FGRM222 Roller Shutter Controller 2
-      is_awake: true
-      is_failed: false
-      is_info_received: true
-      is_ready: true
-      is_zwave_plus: false
-      lastRequestRTT: 47
-      lastResponseRTT: 2782
-      manufacturer_name: FIBARO System
-      max_baud_rate: 40000
-      neighbors:
-      - 2
-      - 3
-      - 4
-      - 5
-      - 10
-      - 13
-      - 15
-      - 17
-      - 20
-      - 23
-      node_id: 11
-      node_name: FIBARO System FGRM222 Roller Shutter Controller 2
-      product_name: FGRM222 Roller Shutter Controller 2
-      query_stage: Complete
-      receivedCnt: 22
-      receivedDups: 0
-      receivedTS: '2020-02-21 12:00:18:596 '
-      receivedUnsolicited: 9
-      retries: 0
-      sentCnt: 17
-      sentFailed: 0
-      sentTS: '2020-02-21 11:59:48:904 '
-      state: ready
-    zwave.qubino_goap_zmnhca2_flush_shutter_2:
-      application_version: '1.12'
-      averageRequestRTT: 125
-      averageResponseRTT: 182
-      capabilities:
-      - beaming
-      - routing
-      - listening
-      friendly_name: Boven voor groot
-      is_awake: true
-      is_failed: false
-      is_info_received: true
-      is_ready: true
-      is_zwave_plus: false
-      lastRequestRTT: 120
-      lastResponseRTT: 172
-      manufacturer_name: Qubino
-      max_baud_rate: 40000
-      neighbors:
-      - 2
-      - 3
-      - 4
-      - 5
-      - 10
-      - 11
-      - 12
-      - 18
-      - 23
-      node_id: 13
-      node_name: Qubino ZMNHCA2 Flush Shutter
-      product_name: ZMNHCA2 Flush Shutter
-      query_stage: Complete
-      receivedCnt: 11
-      receivedDups: 0
-      receivedTS: '2020-02-21 10:30:44:318 '
-      receivedUnsolicited: 0
-      retries: 0
-      sentCnt: 15
-      sentFailed: 0
-      sentTS: '2020-02-21 10:30:44:145 '
-      state: ready
-    zwave.qubino_goap_zmnhcdx_flush_shutter_2:
-      application_version: '1.01'
-      averageRequestRTT: 169
-      averageResponseRTT: 241
-      capabilities:
-      - beaming
-      - zwave_plus
-      - routing
-      - listening
-      friendly_name: Rolluik Beneden voor
-      is_awake: true
-      is_failed: false
-      is_info_received: true
-      is_ready: true
-      is_zwave_plus: true
-      lastRequestRTT: 223
-      lastResponseRTT: 158
-      manufacturer_name: Qubino
-      max_baud_rate: 40000
-      neighbors:
-      - 2
-      - 3
-      - 4
-      - 10
-      - 12
-      - 13
-      - 17
-      node_id: 18
-      node_name: Qubino ZMNHCDx Flush Shutter
-      product_name: ZMNHCDx Flush Shutter
-      query_stage: Complete
-      receivedCnt: 50
-      receivedDups: 0
-      receivedTS: '2020-02-21 12:01:40:111 '
-      receivedUnsolicited: 33
-      retries: 0
-      sentCnt: 24
-      sentFailed: 0
-      sentTS: '2020-02-21 12:01:07:889 '
-      state: ready
-    zwave.rolluik_boven_achter:
-      application_version: '1.01'
-      averageRequestRTT: 92
-      averageResponseRTT: 347
-      capabilities:
-      - beaming
-      - zwave_plus
-      - routing
-      - listening
-      friendly_name: Rolluik boven achter
-      is_awake: true
-      is_failed: false
-      is_info_received: true
-      is_ready: true
-      is_zwave_plus: true
-      lastRequestRTT: 76
-      lastResponseRTT: 185
-      manufacturer_name: Qubino (Goap)
-      max_baud_rate: 40000
-      neighbors:
-      - 1
-      - 3
-      - 4
-      - 5
-      - 6
-      - 10
-      - 11
-      - 13
-      node_id: 23
-      node_name: Qubino (Goap) ZMNHCDx Flush Shutter
-      product_name: ZMNHCDx Flush Shutter
-      query_stage: Complete
-      receivedCnt: 46
-      receivedDups: 1
-      receivedTS: '2020-02-21 12:00:41:263 '
-      receivedUnsolicited: 18
-      retries: 0
-      sentCnt: 39
-      sentFailed: 0
-      sentTS: '2020-02-21 12:00:14:197 '
-      state: ready
-- id: '1580499655612'
-  name: Haard Green
-  entities:
-    light.rgbwhaard:
-      brightness: 166
       effect_list:
       - blue_fade
       - blue_strobe
@@ -357,360 +42,491 @@
       - custom
       friendly_name: RGBWHaard
       hs_color:
-      - 105.904
+      - 0
       - 100
       max_mireds: 500
       min_mireds: 153
       rgb_color:
-      - 59
       - 255
+      - 0
       - 0
       state: 'on'
       supported_features: 151
-      white_value: 0
+      white_value: 30
       xy_color:
-      - 0.196
-      - 0.727
+      - 0.701
+      - 0.299
+    light.salontafel_level:
+      brightness: 31
+      friendly_name: 'Salontafel: Level'
+      node_id: 2
+      state: 'on'
+      supported_features: 33
+    switch.eettafel_switch:
+      friendly_name: 'Eettafel: Switch'
+      node_id: 3
+      state: 'off'
+    switch.salontafel_switch:
+      friendly_name: 'Salontafel: Switch'
+      node_id: 2
+      state: 'off'
+- id: scene2
+  name: Dimmed_lights_movie
+  entities:
+    light.booglamp:
+      friendly_name: Booglamp
+      max_mireds: 454
+      min_mireds: 250
+      state: 'off'
+      supported_features: 35
+    light.eettafel_level:
+      brightness: 21
+      friendly_name: 'Eettafel: Level'
+      node_id: 3
+      state: 'on'
+      supported_features: 33
+    light.salontafel_level:
+      brightness: 18
+      friendly_name: 'Salontafel: Level'
+      node_id: 2
+      state: 'on'
+      supported_features: 33
+    switch.eettafel_switch:
+      friendly_name: 'Eettafel: Switch'
+      node_id: 3
+      state: 'off'
+    switch.salontafel_switch:
+      friendly_name: 'Salontafel: Switch'
+      node_id: 2
+      state: 'off'
+- id: scene3
+  name: Spots_Kitchen_Dim
+  entities:
+    light.keuken_spots_level:
+      brightness: 31
+      friendly_name: 'Keuken spots: Level'
+      node_id: 4
+      state: 'on'
+      supported_features: 33
+    switch.keuken_spots_switch:
+      friendly_name: 'Keuken spots: Switch'
+      node_id: 4
+      state: 'off'
+- id: scene4
+  name: Spots_Kitchen_Normal
+  entities:
+    light.keuken_spots_level:
+      brightness: 165
+      friendly_name: 'Keuken spots: Level'
+      node_id: 4
+      state: 'on'
+      supported_features: 33
+    switch.keuken_spots_switch:
+      friendly_name: 'Keuken spots: Switch'
+      node_id: 4
+      state: 'off'
+- id: scene5
+  name: Morning First Motion
+  entities:
+    light.keuken_spots_level:
+      brightness: 44
+      friendly_name: 'Keuken spots: Level'
+      node_id: 4
+      state: 'on'
+      supported_features: 33
+    light.salontafel_level:
+      brightness: 28
+      friendly_name: 'Salontafel: Level'
+      node_id: 2
+      state: 'on'
+      supported_features: 33
+    switch.keuken_spots_switch:
+      friendly_name: 'Keuken spots: Switch'
+      node_id: 4
+      state: 'off'
+    switch.salontafel_switch:
+      friendly_name: 'Salontafel: Switch'
+      node_id: 2
+      state: 'off'
+- id: scene6
+  name: All_lights_off
+  entities:
+    light.booglamp:
+      friendly_name: Booglamp
+      max_mireds: 454
+      min_mireds: 250
+      state: 'off'
+      supported_features: 35
+    light.eettafel_level:
+      friendly_name: 'Eettafel: Level'
+      node_id: 3
+      state: 'off'
+      supported_features: 33
+    light.keuken_lamp_level:
+      friendly_name: 'Keuken lamp: Level'
+      node_id: 5
+      state: 'off'
+      supported_features: 33
+    light.keuken_spots_level:
+      friendly_name: 'Keuken spots: Level'
+      node_id: 4
+      state: 'off'
+      supported_features: 33
+    light.rgbwhaard:
+      effect_list:
+      - blue_fade
+      - blue_strobe
+      - colorjump
+      - colorloop
+      - colorstrobe
+      - cyan_fade
+      - cyan_strobe
+      - gb_cross_fade
+      - green_fade
+      - green_strobe
+      - purple_fade
+      - purple_strobe
+      - rb_cross_fade
+      - red_fade
+      - red_strobe
+      - rg_cross_fade
+      - white_fade
+      - white_strobe
+      - yellow_fade
+      - yellow_strobe
+      - random
+      - custom
+      friendly_name: RGBWHaard
+      max_mireds: 500
+      min_mireds: 153
+      state: 'off'
+      supported_features: 151
+    light.salontafel_level:
+      friendly_name: 'Salontafel: Level'
+      node_id: 2
+      state: 'off'
+      supported_features: 33
+    switch.eettafel_switch:
+      friendly_name: 'Eettafel: Switch'
+      node_id: 3
+      state: 'off'
+    switch.keuken_lamp_switch:
+      friendly_name: 'Keuken lamp: Switch'
+      node_id: 5
+      state: 'off'
+    switch.keuken_spots_switch:
+      friendly_name: 'Keuken spots: Switch'
+      node_id: 4
+      state: 'off'
+    switch.salontafel_switch:
+      friendly_name: 'Salontafel: Switch'
+      node_id: 2
+      state: 'off'
+- id: '1580499515917'
+  name: Covers Closed
+  entities:
+    cover.beneden_achter_groot_level:
+      current_position: 0
+      friendly_name: 'Beneden achter groot: Level'
+      node_id: 10
+      state: open
+      supported_features: 7
+    cover.beneden_voor_groot_level:
+      current_position: 0
+      friendly_name: 'Beneden voor groot: Level'
+      node_id: 18
+      state: closed
+      supported_features: 7
+    cover.boven_achter_groot_level_2:
+      current_position: 0
+      friendly_name: 'Boven achter groot: Level'
+      node_id: 23
+      state: closed
+      supported_features: 7
+    cover.boven_achter_klein_level:
+      current_position: 100
+      friendly_name: 'Boven achter klein: Level'
+      node_id: 11
+      state: open
+      supported_features: 7
+    cover.boven_voor_groot_level:
+      current_position: 0
+      friendly_name: 'Boven voor groot: Level'
+      node_id: 13
+      state: open
+      supported_features: 7
+    cover.boven_voor_klein_level:
+      current_position: 0
+      friendly_name: 'Boven voor klein: Level'
+      node_id: 12
+      state: closed
+      supported_features: 7
+    switch.beneden_achter_groot_switch:
+      friendly_name: 'Beneden achter groot: Switch'
+      node_id: 10
+      state: 'on'
+    switch.beneden_voor_groot_switch:
+      friendly_name: 'Beneden voor groot: Switch'
+      node_id: 18
+      state: 'on'
+    switch.boven_achter_groot_switch:
+      friendly_name: 'Boven achter groot: Switch'
+      node_id: 23
+      state: 'off'
+    switch.boven_achter_klein_switch:
+      friendly_name: 'Boven achter klein: Switch'
+      node_id: 11
+      state: 'on'
+    switch.boven_voor_groot_switch:
+      friendly_name: 'Boven voor groot: Switch'
+      node_id: 13
+      state: 'on'
+    switch.boven_voor_klein_switch:
+      friendly_name: 'Boven voor klein: Switch'
+      node_id: 12
+      state: 'on'
+- id: '1580499655612'
+  name: Haard Green
+  entities:
+    light.rgbwhaard:
+      brightness: 61
+      effect_list:
+      - blue_fade
+      - blue_strobe
+      - colorjump
+      - colorloop
+      - colorstrobe
+      - cyan_fade
+      - cyan_strobe
+      - gb_cross_fade
+      - green_fade
+      - green_strobe
+      - purple_fade
+      - purple_strobe
+      - rb_cross_fade
+      - red_fade
+      - red_strobe
+      - rg_cross_fade
+      - white_fade
+      - white_strobe
+      - yellow_fade
+      - yellow_strobe
+      - random
+      - custom
+      friendly_name: RGBWHaard
+      hs_color:
+      - 109.231
+      - 63.934
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 121
+      - 255
+      - 91
+      state: 'on'
+      supported_features: 151
+      white_value: 222
+      xy_color:
+      - 0.248
+      - 0.606
 - id: '1582097518980'
   name: Covers open
   entities:
-    cover.boven_achter_groot_level:
+    cover.beneden_achter_groot_level:
       current_position: 100
-      friendly_name: Boven achter groot Level
-      node_id: 23
-      power_consumption: 0
-      state: open
-      supported_features: 15
-      value_id: '72057594428620801'
-      value_index: 0
-      value_instance: 1
-    cover.fibaro_system_boven_achter_klein_level:
-      current_position: 100
-      friendly_name: Boven achter klein
-      node_id: 11
-      power_consumption: 0
-      state: open
-      supported_features: 15
-      value_id: '72057594227294209'
-      value_index: 0
-      value_instance: 1
-    cover.qubino_beneden_achter_level:
-      current_position: 100
-      friendly_name: Beneden achter
+      friendly_name: 'Beneden achter groot: Level'
       node_id: 10
-      power_consumption: 0
       state: open
-      supported_features: 15
-      value_id: '72057594210516993'
-      value_index: 0
-      value_instance: 1
-    cover.qubino_beneden_voor_level:
+      supported_features: 7
+    cover.beneden_voor_groot_level:
       current_position: 100
-      friendly_name: beneden voor
+      friendly_name: 'Beneden voor groot: Level'
       node_id: 18
-      power_consumption: 0
       state: open
-      supported_features: 15
-      value_id: '72057594344734721'
-      value_index: 0
-      value_instance: 1
-    cover.qubino_boven_voor_groot_level:
+      supported_features: 7
+    cover.boven_achter_groot_level_2:
       current_position: 100
-      friendly_name: Boven voor groot
-      node_id: 13
-      power_consumption: 0
-      state: open
-      supported_features: 15
-      value_id: '72057594260848641'
-      value_index: 0
-      value_instance: 1
-    cover.qubino_boven_voor_klein_level:
-      current_position: 100
-      friendly_name: Boven voor klein Level
-      node_id: 12
-      power_consumption: 0
-      state: open
-      supported_features: 15
-      value_id: '72057594244071425'
-      value_index: 0
-      value_instance: 1
-    switch.qubino_beneden_voor_switch:
-      restored: true
-      state: unavailable
-      supported_features: 0
-    zwave.boven_achter_groot:
-      application_version: '1.01'
-      averageRequestRTT: 133
-      averageResponseRTT: 3576
-      capabilities:
-      - listening
-      - routing
-      - zwave_plus
-      - beaming
-      friendly_name: Boven achter groot
-      is_awake: true
-      is_failed: false
-      is_info_received: true
-      is_ready: true
-      is_zwave_plus: true
-      lastRequestRTT: 107
-      lastResponseRTT: 188
-      manufacturer_name: Qubino (Goap)
-      max_baud_rate: 40000
-      neighbors:
-      - 1
-      - 3
-      - 4
-      - 5
-      - 6
-      - 10
-      - 11
-      - 13
+      friendly_name: 'Boven achter groot: Level'
       node_id: 23
-      node_name: Qubino (Goap) ZMNHCDx Flush Shutter
-      product_name: ZMNHCDx Flush Shutter
-      query_stage: Complete
-      receivedCnt: 30
-      receivedDups: 1
-      receivedTS: '2020-04-04 06:30:31:916 '
-      receivedUnsolicited: 4
-      retries: 0
-      sentCnt: 29
-      sentFailed: 1
-      sentTS: '2020-04-04 06:30:01:160 '
-      state: ready
-    zwave.boven_voor_klein:
-      application_version: '1.01'
-      averageRequestRTT: 279
-      averageResponseRTT: 258
-      capabilities:
-      - listening
-      - routing
-      - zwave_plus
-      - beaming
-      friendly_name: Boven voor klein
-      is_awake: true
-      is_failed: false
-      is_info_received: true
-      is_ready: true
-      is_zwave_plus: true
-      lastRequestRTT: 93
-      lastResponseRTT: 126
-      manufacturer_name: Qubino
-      max_baud_rate: 40000
-      neighbors:
-      - 1
-      - 3
-      - 4
-      - 13
-      - 17
-      - 18
-      node_id: 12
-      node_name: Qubino ZMNHCDx Flush Shutter
-      product_name: ZMNHCDx Flush Shutter
-      query_stage: Complete
-      receivedCnt: 22
-      receivedDups: 0
-      receivedTS: '2020-04-04 06:30:43:516 '
-      receivedUnsolicited: 3
-      retries: 0
-      sentCnt: 25
-      sentFailed: 0
-      sentTS: '2020-04-04 06:30:13:264 '
-      state: ready
-    zwave.fibaro_system_fgrm222_roller_shutter_controller_2:
-      application_version: '25.25'
-      averageRequestRTT: 78
-      averageResponseRTT: 144
-      capabilities:
-      - listening
-      - routing
-      - beaming
-      friendly_name: FIBARO System FGRM222 Roller Shutter Controller 2
-      is_awake: true
-      is_failed: false
-      is_info_received: true
-      is_ready: true
-      is_zwave_plus: false
-      lastRequestRTT: 71
-      lastResponseRTT: 211
-      manufacturer_name: FIBARO System
-      max_baud_rate: 40000
-      neighbors:
-      - 2
-      - 3
-      - 4
-      - 5
-      - 10
-      - 13
-      - 15
-      - 17
-      - 20
-      - 23
+      state: open
+      supported_features: 7
+    cover.boven_achter_klein_level:
+      current_position: 0
+      friendly_name: 'Boven achter klein: Level'
       node_id: 11
-      node_name: FIBARO System FGRM222 Roller Shutter Controller 2
-      product_name: FGRM222 Roller Shutter Controller 2
-      query_stage: Complete
-      receivedCnt: 71
-      receivedDups: 0
-      receivedTS: '2020-04-04 06:49:07:305 '
-      receivedUnsolicited: 60
-      retries: 0
-      sentCnt: 17
-      sentFailed: 0
-      sentTS: '2020-04-03 18:44:34:135 '
-      state: ready
-    zwave.qubino_goap_zmnhca2_flush_shutter:
-      application_version: Unknown
-      averageRequestRTT: 717
-      averageResponseRTT: 269
-      capabilities:
-      - listening
-      - routing
-      - beaming
-      friendly_name: Qubino ZMNHCA2 Flush Shutter
-      is_awake: true
-      is_failed: false
-      is_info_received: true
-      is_ready: true
-      is_zwave_plus: false
-      lastRequestRTT: 711
-      lastResponseRTT: 256
-      manufacturer_name: Qubino
-      max_baud_rate: 40000
-      neighbors:
-      - 3
-      - 4
-      - 5
-      - 11
-      - 13
-      - 17
-      - 18
-      - 23
-      node_id: 10
-      node_name: Qubino ZMNHCA2 Flush Shutter
-      product_name: ZMNHCA2 Flush Shutter
-      query_stage: Complete
-      receivedCnt: 15
-      receivedDups: 0
-      receivedTS: '2020-04-04 07:34:41:292 '
-      receivedUnsolicited: 0
-      retries: 0
-      sentCnt: 23
-      sentFailed: 0
-      sentTS: '2020-04-04 07:34:41:036 '
-      state: ready
-    zwave.qubino_goap_zmnhca2_flush_shutter_2:
-      application_version: '1.12'
-      averageRequestRTT: 63
-      averageResponseRTT: 116
-      capabilities:
-      - listening
-      - routing
-      - beaming
-      friendly_name: Boven voor groot
-      is_awake: true
-      is_failed: false
-      is_info_received: true
-      is_ready: true
-      is_zwave_plus: false
-      lastRequestRTT: 56
-      lastResponseRTT: 107
-      manufacturer_name: Qubino
-      max_baud_rate: 40000
-      neighbors:
-      - 2
-      - 3
-      - 4
-      - 5
-      - 10
-      - 11
-      - 12
-      - 18
-      - 23
+      state: closed
+      supported_features: 7
+    cover.boven_voor_groot_level:
+      current_position: 100
+      friendly_name: 'Boven voor groot: Level'
       node_id: 13
-      node_name: Qubino ZMNHCA2 Flush Shutter
-      product_name: ZMNHCA2 Flush Shutter
-      query_stage: Complete
-      receivedCnt: 17
-      receivedDups: 0
-      receivedTS: '2020-04-04 07:35:25:010 '
-      receivedUnsolicited: 0
-      retries: 0
-      sentCnt: 26
-      sentFailed: 0
-      sentTS: '2020-04-04 07:35:24:904 '
-      state: ready
-    zwave.qubino_goap_zmnhcdx_flush_shutter_2:
-      application_version: '1.01'
-      averageRequestRTT: 236
-      averageResponseRTT: 352
-      capabilities:
-      - listening
-      - routing
-      - zwave_plus
-      - beaming
-      friendly_name: Rolluik Beneden voor
-      is_awake: true
-      is_failed: false
-      is_info_received: true
-      is_ready: true
-      is_zwave_plus: true
-      lastRequestRTT: 261
-      lastResponseRTT: 387
-      manufacturer_name: Qubino
-      max_baud_rate: 40000
-      neighbors:
-      - 2
-      - 3
-      - 4
-      - 10
-      - 12
-      - 13
-      - 17
+      state: open
+      supported_features: 7
+    cover.boven_voor_klein_level:
+      current_position: 100
+      friendly_name: 'Boven voor klein: Level'
+      node_id: 12
+      state: open
+      supported_features: 7
+    switch.beneden_achter_groot_switch:
+      friendly_name: 'Beneden achter groot: Switch'
+      node_id: 10
+      state: 'on'
+    switch.beneden_voor_groot_switch:
+      friendly_name: 'Beneden voor groot: Switch'
       node_id: 18
-      node_name: Qubino ZMNHCDx Flush Shutter
-      product_name: ZMNHCDx Flush Shutter
-      query_stage: Complete
-      receivedCnt: 329
-      receivedDups: 0
-      receivedTS: '2020-04-04 07:31:55:086 '
-      receivedUnsolicited: 311
-      retries: 0
-      sentCnt: 23
-      sentFailed: 0
-      sentTS: '2020-04-03 18:44:37:770 '
-      state: ready
+      state: 'on'
+    switch.boven_achter_groot_switch:
+      friendly_name: 'Boven achter groot: Switch'
+      node_id: 23
+      state: 'off'
+    switch.boven_achter_klein_switch:
+      friendly_name: 'Boven achter klein: Switch'
+      node_id: 11
+      state: 'on'
+    switch.boven_voor_groot_switch:
+      friendly_name: 'Boven voor groot: Switch'
+      node_id: 13
+      state: 'on'
+    switch.boven_voor_klein_switch:
+      friendly_name: 'Boven voor klein: Switch'
+      node_id: 12
+      state: 'on'
 - id: '1591098352279'
   name: Covers Hot day
   entities:
-    cover.boven_achter_groot_level:
-      current_position: 20
-      friendly_name: Boven achter groot Level
-      node_id: 23
-      power_consumption: 0
-      state: open
-      supported_features: 15
-      value_id: '72057594428620801'
-      value_index: 0
-      value_instance: 1
-    cover.fibaro_system_boven_achter_klein_level:
-      current_position: 20
-      friendly_name: Boven achter klein
-      node_id: 11
-      power_consumption: 0
-      state: open
-      supported_features: 15
-      value_id: '72057594227294209'
-      value_index: 0
-      value_instance: 1
-    cover.qubino_beneden_achter_level:
-      current_position: 17
-      friendly_name: Beneden achter
+    cover.beneden_achter_groot_level:
+      current_position: 15
+      friendly_name: 'Beneden achter groot: Level'
       node_id: 10
-      power_consumption: 0
+      state: closed
+      supported_features: 7
+    cover.boven_achter_groot_level_2:
+      current_position: 15
+      friendly_name: 'Boven achter groot: Level'
+      node_id: 23
       state: open
-      supported_features: 15
-      value_id: '72057594210516993'
-      value_index: 0
-      value_instance: 1
+      supported_features: 7
+    cover.boven_achter_klein_level:
+      current_position: 85
+      friendly_name: 'Boven achter klein: Level'
+      node_id: 11
+      state: open
+      supported_features: 7
+    switch.beneden_achter_groot_switch:
+      friendly_name: 'Beneden achter groot: Switch'
+      node_id: 10
+      state: 'on'
+    switch.boven_achter_groot_switch:
+      friendly_name: 'Boven achter groot: Switch'
+      node_id: 23
+      state: 'off'
+    switch.boven_achter_klein_switch:
+      friendly_name: 'Boven achter klein: Switch'
+      node_id: 11
+      state: 'on'
+- id: '1597237104055'
+  name: Front cover half
+  entities:
+    cover.beneden_voor_groot_level:
+      current_position: 54
+      friendly_name: 'Beneden voor groot: Level'
+      node_id: 18
+      state: open
+      supported_features: 7
+    switch.beneden_voor_groot_switch:
+      friendly_name: 'Beneden voor groot: Switch'
+      node_id: 18
+      state: 'on'
+- id: '1597237660335'
+  name: Max light
+  entities:
+    light.booglamp:
+      brightness: 254
+      color_temp: 254
+      friendly_name: Booglamp
+      max_mireds: 454
+      min_mireds: 250
+      state: 'on'
+      supported_features: 35
+    light.eettafel_level:
+      brightness: 255
+      friendly_name: 'Eettafel: Level'
+      node_id: 3
+      state: 'on'
+      supported_features: 33
+    light.keuken_lamp_level:
+      brightness: 255
+      friendly_name: 'Keuken lamp: Level'
+      node_id: 5
+      state: 'on'
+      supported_features: 33
+    light.keuken_spots_level:
+      brightness: 255
+      friendly_name: 'Keuken spots: Level'
+      node_id: 4
+      state: 'on'
+      supported_features: 33
+    light.rgbwhaard:
+      brightness: 15
+      effect_list:
+      - blue_fade
+      - blue_strobe
+      - colorjump
+      - colorloop
+      - colorstrobe
+      - cyan_fade
+      - cyan_strobe
+      - gb_cross_fade
+      - green_fade
+      - green_strobe
+      - purple_fade
+      - purple_strobe
+      - rb_cross_fade
+      - red_fade
+      - red_strobe
+      - rg_cross_fade
+      - white_fade
+      - white_strobe
+      - yellow_fade
+      - yellow_strobe
+      - random
+      - custom
+      friendly_name: RGBWHaard
+      hs_color:
+      - 0
+      - 6.667
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 255
+      - 237
+      - 237
+      state: 'on'
+      supported_features: 151
+      white_value: 222
+      xy_color:
+      - 0.343
+      - 0.327
+    light.salontafel_level:
+      brightness: 255
+      friendly_name: 'Salontafel: Level'
+      node_id: 2
+      state: 'on'
+      supported_features: 33
+    switch.eettafel_switch:
+      friendly_name: 'Eettafel: Switch'
+      node_id: 3
+      state: 'off'
+    switch.keuken_lamp_switch:
+      friendly_name: 'Keuken lamp: Switch'
+      node_id: 5
+      state: 'off'
+    switch.keuken_spots_switch:
+      friendly_name: 'Keuken spots: Switch'
+      node_id: 4
+      state: 'off'
+    switch.salontafel_switch:
+      friendly_name: 'Salontafel: Switch'
+      node_id: 2
+      state: 'off'

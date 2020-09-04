@@ -31,6 +31,7 @@ from .const import (
     CONF_CERTPATH,
     CONTAINER,
     CONTAINER_STATS_CPU_PERCENTAGE,
+    CONTAINER_STATS_1CPU_PERCENTAGE,
     CONTAINER_INFO_IMAGE,
     CONTAINER_INFO_NETWORK_AVAILABLE,
     CONTAINER_STATS_MEMORY,
@@ -49,11 +50,14 @@ from .const import (
     DOCKER_INFO_CONTAINER_TOTAL,
     DOCKER_INFO_VERSION,
     DOCKER_STATS_CPU_PERCENTAGE,
+    DOCKER_STATS_1CPU_PERCENTAGE,
     DOCKER_STATS_MEMORY,
     DOCKER_STATS_MEMORY_PERCENTAGE,
     DOMAIN,
     PRECISION,
 )
+
+VERSION = "1.4"
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -82,6 +86,8 @@ class DockerAPI:
         self._info = {}
         self._event_create = {}
         self._event_destroy = {}
+
+        _LOGGER.debug("Helper version: %s", VERSION)
 
         self._interval = config[CONF_SCAN_INTERVAL].seconds
 
@@ -369,6 +375,7 @@ class DockerAPI:
                 self._info[ATTR_VERSION_KERNEL] = info.get("KernelVersion")
 
                 self._info[DOCKER_STATS_CPU_PERCENTAGE] = 0.0
+                self._info[DOCKER_STATS_1CPU_PERCENTAGE] = 0.0
                 self._info[DOCKER_STATS_MEMORY] = 0
                 self._info[DOCKER_STATS_MEMORY_PERCENTAGE] = 0.0
 
@@ -404,11 +411,27 @@ class DockerAPI:
                     if self._info[DOCKER_STATS_CPU_PERCENTAGE] == 0.0
                     else round(self._info[DOCKER_STATS_CPU_PERCENTAGE], PRECISION)
                 )
+
+                # Calculate for 0-100%
+                if self._info[DOCKER_STATS_CPU_PERCENTAGE] == 0.0:
+                    self._info[DOCKER_STATS_1CPU_PERCENTAGE] = None
+                elif self._info[DOCKER_STATS_CPU_PERCENTAGE] is None:
+                    self._info[DOCKER_STATS_1CPU_PERCENTAGE] = None
+                else:
+                    self._info[DOCKER_STATS_1CPU_PERCENTAGE] = round(
+                        (
+                            self._info[DOCKER_STATS_CPU_PERCENTAGE]
+                            / self._info[ATTR_ONLINE_CPUS]
+                        ),
+                        PRECISION,
+                    )
+
                 self._info[DOCKER_STATS_MEMORY] = (
                     None
                     if self._info[DOCKER_STATS_MEMORY] == 0.0
                     else round(self._info[DOCKER_STATS_MEMORY], PRECISION)
                 )
+
                 self._info[DOCKER_STATS_MEMORY_PERCENTAGE] = (
                     None
                     if self._info[DOCKER_STATS_MEMORY_PERCENTAGE] == 0.0
@@ -416,11 +439,12 @@ class DockerAPI:
                 )
 
                 _LOGGER.debug(
-                    "Version: %s, Containers: %s, Running: %s, CPU: %s%%, Memory: %sMB, %s%%",
+                    "Version: %s, Containers: %s, Running: %s, CPU: %s%%, 1CPU: %s%%, Memory: %sMB, %s%%",
                     self._info[DOCKER_INFO_VERSION],
                     self._info[DOCKER_INFO_CONTAINER_TOTAL],
                     self._info[DOCKER_INFO_CONTAINER_RUNNING],
                     self._info[DOCKER_STATS_CPU_PERCENTAGE],
+                    self._info[DOCKER_STATS_1CPU_PERCENTAGE],
                     self._info[DOCKER_STATS_MEMORY],
                     self._info[DOCKER_STATS_MEMORY_PERCENTAGE],
                 )
@@ -466,6 +490,8 @@ class DockerContainerAPI:
         self._cpu_old = {}
         self._network_old = {}
         self._network_error = 0
+        self._memory_error = 0
+        self._cpu_error = 0
 
         self._info = {}
         self._stats = {}
@@ -646,17 +672,28 @@ class DockerContainerAPI:
 
             self._cpu_old = cpu_new
 
+            if self._cpu_error > 0:
+                _LOGGER.debug(
+                    "%s: CPU error count %s reset to 0", self._name, self._cpu_error
+                )
+
+            self._cpu_error = 0
+
         except KeyError as err:
+
             # Something wrong with the raw data
-            _LOGGER.error(
-                "%s: Can not determine CPU usage for container (%s)",
-                self._name,
-                str(err),
-            )
-            if "cpu_stats" in raw:
-                _LOGGER.error("Raw 'cpu_stats' %s", raw["cpu_stats"])
-            else:
-                _LOGGER.error("No 'cpu_stats' found in raw packet")
+            if self._cpu_error == 0:
+                _LOGGER.error(
+                    "%s: Cannot determine CPU usage for container (%s)",
+                    self._name,
+                    str(err),
+                )
+                if "cpu_stats" in raw:
+                    _LOGGER.error("Raw 'cpu_stats' %s", raw["cpu_stats"])
+                else:
+                    _LOGGER.error("No 'cpu_stats' found in raw packet")
+
+            self._cpu_error += 1
 
         # Gather memory information
         memory_stats = {}
@@ -672,21 +709,36 @@ class DockerContainerAPI:
                 PRECISION,
             )
 
-        except (KeyError, TypeError) as err:
-            _LOGGER.error(
-                "%s: Can not determine memory usage for container (%s)",
-                self._name,
-                str(err),
-            )
-            if "memory_stats" in raw:
-                _LOGGER.error(
-                    "%s: Raw 'memory_stats' %s", raw["memory_stats"], self._name
+            if self._memory_error > 0:
+                _LOGGER.debug(
+                    "%s: Memory error count %s reset to 0",
+                    self._name,
+                    self._memory_error,
                 )
-            else:
-                _LOGGER.error("%s: No 'memory_stats' found in raw packet", self._name)
+
+            self._memory_error = 0
+
+        except (KeyError, TypeError) as err:
+
+            if self._memory_error == 0:
+                _LOGGER.error(
+                    "%s: Cannot determine memory usage for container (%s)",
+                    self._name,
+                    str(err),
+                )
+                if "memory_stats" in raw:
+                    _LOGGER.error(
+                        "%s: Raw 'memory_stats' %s", raw["memory_stats"], self._name
+                    )
+                else:
+                    _LOGGER.error(
+                        "%s: No 'memory_stats' found in raw packet", self._name
+                    )
+
+            self._memory_error += 1
 
         _LOGGER.debug(
-            "%s: CPU Usage=%s%%. Memory Usage=%sMB, %s%%",
+            "%s: CPU: %s%%, Memory: %sMB, %s%%",
             self._name,
             cpu_stats.get("total", None),
             memory_stats.get("usage", None),
@@ -753,6 +805,10 @@ class DockerContainerAPI:
         stats["network"] = network_stats
 
         stats[CONTAINER_STATS_CPU_PERCENTAGE] = cpu_stats.get("total")
+        if "online_cpus" in cpu_stats and cpu_stats.get("total") is not None:
+            stats[CONTAINER_STATS_1CPU_PERCENTAGE] = round(
+                cpu_stats.get("total") / cpu_stats["online_cpus"], PRECISION
+            )
         stats[CONTAINER_STATS_MEMORY] = memory_stats.get("usage")
         stats[CONTAINER_STATS_MEMORY_PERCENTAGE] = memory_stats.get("usage_percent")
         stats[CONTAINER_STATS_NETWORK_SPEED_UP] = network_stats.get("speed_tx")

@@ -2,7 +2,7 @@
   alias: Set  dark Theme
   description: ''
   trigger:
-  - at: '21:30'
+  - at: '21:30:00'
     platform: time
   condition: []
   action:
@@ -24,16 +24,15 @@
   alias: Boil water in the morning
   trigger:
   - platform: time
-    at: '6:45'
+    at: 06:45:00
   action:
   - service: homeassistant.turn_on
     entity_id: switch.sonoffs20_1
 - id: '5'
   alias: Wake-me up using bedroom lights
   trigger:
-    platform: template
-    value_template: '{{ states(''sensor.time'') == (states.input_datetime.wakeup_time.attributes.timestamp
-      | int | timestamp_custom(''%H:%M'', False)) }}'
+  - entity_id: sensor.time
+    platform: state
   condition:
   - condition: state
     entity_id: input_boolean.wakeup_enabled
@@ -43,39 +42,42 @@
     - condition: state
       entity_id: input_boolean.wakeup_weekend
       state: 'on'
-    - condition: time
-      weekday:
-      - mon
-      - tue
-      - wed
-      - thu
+  - condition: template
+    value_template: '{{ utcnow().timestamp() + 60 > state_attr(''sensor.mi_8_se_next_alarm'',
+      ''Time in Milliseconds'') / 1000 }}
+
+      '
+  - condition: template
+    value_template: '{{state_attr(''sensor.mi_8_se_next_alarm'', ''Package'') == ''com.android.deskclock''}}'
   action:
-  - service: light.turn_on
-    entity_id: light.slaapkamer
-    data:
-      transition: 500
+  - data:
       brightness: 200
+      transition: 500
+    entity_id: light.slaapkamer
+    service: light.turn_on
+  - data:
+      message: wake up Trigger done!
+    service: notify.mobile_app_mi_8_se
+  mode: single
 - id: '6'
   alias: Tot Ziens
   trigger:
+  - entity_id: binary_sensor.keuken_lamp_instance_1_sensor
     platform: state
-    entity_id: binary_sensor.qubino_keuken_sensor
-  condition:
-    condition: state
-    entity_id: input_boolean.zwave_ready
-    state: 'on'
+  condition: []
   action:
-  - service: homeassistant.turn_off
-    entity_id: input_boolean.avond_licht_triggered
-  - service: scene.turn_on
-    entity_id: scene.All_lights_off
-  - service: homeassistant.turn_off
-    entity_id: script.timed_lamp
+  - entity_id: input_boolean.avond_licht_triggered
+    service: homeassistant.turn_off
+  - entity_id: scene.All_lights_off
+    service: scene.turn_on
+  - entity_id: script.timed_lamp
+    service: homeassistant.turn_off
+  mode: single
 - id: '7'
   alias: reset bools at 6am
   trigger:
     platform: time
-    at: '6:00:00'
+    at: '06:00:00'
   action:
   - service: homeassistant.turn_off
     entity_id: input_boolean.naar_bed
@@ -96,7 +98,7 @@
 - id: '8'
   alias: Naar Bed
   trigger:
-  - entity_id: binary_sensor.qubino_eettafel_sensor
+  - entity_id: binary_sensor.eettafel_instance_1_sensor
     platform: state
   condition: []
   action:
@@ -112,6 +114,7 @@
       entity_id: climate.thermostaat
       temperature: 18.5
     service: climate.set_temperature
+  mode: single
 - id: '10'
   alias: Stuur gas meterstand door naar mindergas.nl
   trigger:
@@ -122,19 +125,19 @@
 - id: '11'
   alias: Turn lights on when arriving home
   trigger:
-  - platform: state
-    entity_id: person.kevin, person.steffie
+  - entity_id: device_tracker.telefoonkevin,device_tracker.telefoonsteffie
+    platform: state
     to: home
-  - platform: state
-    entity_id: input_boolean.babysit
+  - entity_id: input_boolean.babysit
+    platform: state
     to: 'on'
   condition:
-    condition: and
+  - condition: and
     conditions:
-    - condition: numeric_state
+    - below: 1.5
+      condition: numeric_state
       entity_id: sun.sun
       value_template: '{{ state.attributes.elevation }}'
-      below: 1.5
     - condition: state
       entity_id: input_boolean.naar_bed
       state: 'off'
@@ -144,24 +147,24 @@
     - condition: state
       entity_id: input_boolean.zwave_ready
       state: 'on'
-    - condition: time
-      after: '16:00:00'
-      before: '5:00:00'
+    - after: '16:00:00'
+      before: '05:00:00'
+      condition: time
   action:
-  - service: scene.turn_on
-    entity_id: scene.background_lights
-  - service: homeassistant.turn_on
-    entity_id: input_boolean.avond_licht_triggered
+  - entity_id: scene.background_lights
+    service: scene.turn_on
+  - entity_id: input_boolean.avond_licht_triggered
+    service: homeassistant.turn_on
 - id: '12'
   alias: Turn on kitchen with movement
   trigger:
-  - entity_id: binary_sensor.fibaro_system_keuken_sensor
+  - entity_id: binary_sensor.keuken_sensor_sensor
     platform: state
     to: 'on'
   condition:
   - condition: and
     conditions:
-    - below: '1.5'
+    - below: 1.5
       condition: numeric_state
       entity_id: sun.sun
       value_template: '{{ state.attributes.elevation }}'
@@ -171,30 +174,31 @@
   action:
   - entity_id: script.timed_lamp
     service: homeassistant.turn_on
+  mode: single
 - id: '13'
   alias: Turn lights on as the sun is dimm
   trigger:
-    platform: numeric_state
+  - below: 1.5
     entity_id: sun.sun
+    platform: numeric_state
     value_template: '{{ state.attributes.elevation }}'
-    below: 1.5
   condition:
-    condition: or
+  - condition: or
     conditions:
     - condition: state
-      entity_id: person.kevin
+      entity_id: device_tracker.telefoonkevin
       state: home
     - condition: state
-      entity_id: person.steffie
+      entity_id: device_tracker.telefoonsteffie
       state: home
     - condition: state
       entity_id: input_boolean.babysit
       state: 'on'
   action:
-  - service: scene.turn_on
-    entity_id: scene.background_lights
-  - service: homeassistant.turn_on
-    entity_id: input_boolean.avond_licht_triggered
+  - entity_id: scene.background_lights
+    service: scene.turn_on
+  - entity_id: input_boolean.avond_licht_triggered
+    service: homeassistant.turn_on
 - id: '15'
   alias: Open Covers on workdays
   trigger:
@@ -215,22 +219,8 @@
       entity_id: input_boolean.holiday_mode_covers
       state: 'off'
   action:
-  - data:
-      entity_id: cover.qubino_beneden_voor_level
-      position: 100
-    service: cover.set_cover_position
-  - data:
-      entity_id: cover.qubino_beneden_achter_level
-      position: 100
-    service: cover.set_cover_position
-  - data:
-      entity_id: cover.qubino_boven_voor_klein_level
-      position: 100
-    service: cover.set_cover_position
-  - data:
-      entity_id: cover.qubino_boven_voor_groot_level
-      position: 100
-    service: cover.set_cover_position
+  - scene: scene.covers_open
+  mode: single
 - id: '16'
   alias: Open Covers non workday
   trigger:
@@ -324,7 +314,27 @@
 - id: '19'
   alias: Close front cover turn on light at set time
   trigger:
-  - at: '21:00'
+  - at: '21:00:00'
+    platform: time
+  condition:
+  - condition: state
+    entity_id: input_boolean.covers_nighttime
+    state: 'off'
+  action:
+  - entity_id: scene.front_cover_half
+    service: scene.turn_on
+  - data: {}
+    entity_id: light.booglamp
+    service: light.turn_on
+  mode: single
+- id: '20'
+  alias: Close covers in the evening
+  trigger:
+  - below: -5
+    entity_id: sun.sun
+    platform: numeric_state
+    value_template: '{{ state.attributes.elevation }}'
+  - at: '22:25:00'
     platform: time
   condition:
   - condition: state
@@ -332,52 +342,34 @@
     state: 'off'
   action:
   - data:
-      entity_id: cover.qubino_beneden_voor_level
-      position: 55
+      entity_id: cover.beneden_voor_groot_level
+      position: 0
+    entity_id: cover.beneden_voor_groot_level
     service: cover.set_cover_position
-  - data: {}
-    entity_id: light.booglamp
-    service: light.turn_on
-- id: '20'
-  alias: close covers in the evening
-  trigger:
-  - platform: numeric_state
-    entity_id: sun.sun
-    value_template: '{{ state.attributes.elevation }}'
-    below: -5
-  - platform: time
-    at: '22:25'
-  condition:
-  - condition: state
-    entity_id: input_boolean.covers_nighttime
-    state: 'off'
-  action:
-  - service: cover.set_cover_position
-    data:
-      entity_id: cover.qubino_beneden_voor_level
+  - data:
+      entity_id: cover.beneden_achter_groot_level
       position: 0
-  - service: cover.set_cover_position
-    data:
-      entity_id: cover.qubino_beneden_achter_level
+    service: cover.set_cover_position
+  - data:
+      entity_id: cover.boven_voor_klein_level
       position: 0
-  - service: cover.set_cover_position
-    data:
-      entity_id: cover.fibaro_system_boven_achter_klein_level
+    service: cover.set_cover_position
+  - data:
+      entity_id: cover.boven_voor_groot_level
       position: 0
-  - service: cover.set_cover_position
-    data:
-      entity_id: cover.qubino_boven_voor_klein_level
-      position: 0
-  - service: cover.set_cover_position
-    data:
-      entity_id: cover.qubino_boven_voor_groot_level
-      position: 0
-  - service: cover.set_cover_position
-    data:
+    entity_id: cover.boven_voor_groot_level
+    service: cover.set_cover_position
+  - data:
       entity_id: cover.boven_achter_groot_level
       position: 0
-  - service: homeassistant.turn_on
-    entity_id: input_boolean.covers_nighttime
+    service: cover.set_cover_position
+  - entity_id: input_boolean.covers_nighttime
+    service: homeassistant.turn_on
+  - data:
+      entity_id: cover.boven_achter_klein_level
+      position: 100
+    service: cover.set_cover_position
+  mode: restart
 - id: '21'
   alias: Open Covers on workdays (kids)
   trigger:
@@ -436,21 +428,23 @@
 - id: '23'
   alias: Close covers (kids)
   trigger:
+  - at: '19:00:00'
     platform: time
-    at: '19:00'
   condition:
   - condition: state
     entity_id: input_boolean.covers_nighttime
     state: 'off'
   action:
-  - service: cover.set_cover_position
-    data:
-      entity_id: cover.boven_achter_groot_level
+  - data:
+      entity_id: cover.boven_achter_groot_level_2
       position: 0
-  - service: cover.set_cover_position
-    data:
-      entity_id: cover.fibaro_system_boven_achter_klein_level
-      position: 0
+    entity_id: cover.boven_achter_groot_level_2
+    service: cover.set_cover_position
+  - data:
+      entity_id: cover.boven_achter_klein_level
+      position: 100
+    service: cover.set_cover_position
+  mode: single
 - id: '24'
   alias: Close covers for sun
   trigger:
@@ -459,15 +453,15 @@
   condition:
   - condition: and
     conditions:
-    - above: '105'
-      below: '240'
+    - above: 105
+      below: 240
       condition: numeric_state
       entity_id: sun.sun
       value_template: '{{ state.attributes.azimuth }}'
     - condition: state
       entity_id: sun.sun
       state: above_horizon
-    - above: '14'
+    - above: 14
       condition: numeric_state
       entity_id: sun.sun
       value_template: '{{ state.attributes.elevation }}'
@@ -482,12 +476,12 @@
       state: 'off'
     - condition: or
       conditions:
-      - above: '25'
+      - above: 25
         condition: numeric_state
         entity_id: sensor.br_temperature_1d
       - condition: and
         conditions:
-        - above: '23'
+        - above: 23
           condition: numeric_state
           entity_id: sensor.br_temperature
         - condition: template
@@ -506,7 +500,7 @@
   condition:
   - condition: and
     conditions:
-    - above: '15'
+    - above: 15
       condition: numeric_state
       entity_id: sun.sun
       value_template: '{{ state.attributes.elevation }}'
@@ -524,7 +518,7 @@
         - condition: state
           entity_id: input_boolean.clear_weather
           state: 'off'
-        - below: '19'
+        - below: 19
           condition: numeric_state
           entity_id: sensor.br_temperature
   action:
@@ -560,13 +554,14 @@
 - id: '27'
   alias: Copy outside temperature
   trigger:
+  - minutes: /15
     platform: time_pattern
-    minutes: /15
   action:
-    service: opentherm_gw.set_outside_temperature
-    data_template:
+  - data_template:
       gateway_id: living_room
-      temperature: '{{states.sensor.buiten_sensor_temperature.state | float}}'
+      temperature: '{{states.sensor.terras_sensor_air_temperature.state | float}}'
+    service: opentherm_gw.set_outside_temperature
+  mode: single
 - id: '28'
   alias: Telegram callback to reply weather forecast
   trigger:
@@ -587,7 +582,7 @@
   alias: Telegram - Fish reminder weekend
   trigger:
     platform: time
-    at: '9:15'
+    at: '09:15:00'
   condition:
   - condition: time
     weekday:
@@ -782,7 +777,7 @@
   alias: Set light theme
   description: ''
   trigger:
-  - at: '6:00'
+  - at: '06:00:00'
     platform: time
   condition: []
   action:
@@ -819,7 +814,7 @@
   alias: Telegram Reminder containers
   description: ''
   trigger:
-  - at: '18:30'
+  - at: '18:30:00'
     platform: time
   condition:
   - condition: not
