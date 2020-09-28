@@ -6,13 +6,3 @@
     destination_entity_id: zone.home
     scan_interval: 600
     traffic_mode: true
-    
-#  - platform: template
-#    sensors:
-#      dest_address:
-#         value_template: >-
-#            {%- if is_state("device_tracker.jl976r.state", "Home")  -%}
-#              zone.work
-#            {%- else -%}
-#              zone.home
-#            {%- endif %}

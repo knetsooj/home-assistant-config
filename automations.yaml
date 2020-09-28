@@ -77,7 +77,7 @@
   alias: reset bools at 6am
   trigger:
     platform: time
-    at: '06:00:00'
+    at: 06:00:00
   action:
   - service: homeassistant.turn_off
     entity_id: input_boolean.naar_bed
@@ -148,7 +148,7 @@
       entity_id: input_boolean.zwave_ready
       state: 'on'
     - after: '16:00:00'
-      before: '05:00:00'
+      before: 05:00:00
       condition: time
   action:
   - entity_id: scene.background_lights
@@ -438,7 +438,7 @@
   - data:
       entity_id: cover.boven_achter_groot_level_2
       position: 0
-    entity_id: cover.boven_achter_groot_level_2
+    entity_id: cover.boven_achter_groot_level
     service: cover.set_cover_position
   - data:
       entity_id: cover.boven_achter_klein_level
@@ -582,7 +582,7 @@
   alias: Telegram - Fish reminder weekend
   trigger:
     platform: time
-    at: '09:15:00'
+    at: 09:15:00
   condition:
   - condition: time
     weekday:
@@ -777,7 +777,7 @@
   alias: Set light theme
   description: ''
   trigger:
-  - at: '06:00:00'
+  - at: 06:00:00
     platform: time
   condition: []
   action:
@@ -868,3 +868,40 @@
     service: notify.mobile_app_mi_8_se
   - data: {}
     service: shell_command.upgrade_hass
+- id: '1600454827163'
+  alias: 3dPrinterReady
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.octoprint_printing
+    to: 'off'
+    from: 'on'
+  condition: []
+  action:
+  - service: notify.mobile_app_mi_8_se
+    data:
+      message: Ook maar meteen uitgezet!
+      title: 3D printer is klaar
+      data:
+        image: /api/camera_proxy/camera.octoprint
+        ttl: 0
+  - type: turn_off
+    device_id: cb92db0d43b54f99982da8565fa9e05e
+    entity_id: switch.sonoff_otgw_sonoff_3
+    domain: switch
+  mode: single
+- id: '1600505480315'
+  alias: 3dPrinterStart
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.octoprint_printing
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - service: notify.mobile_app_mi_8_se
+    data:
+      message: Drink maar even koffie
+      title: 3D printer is gestart
+  mode: single

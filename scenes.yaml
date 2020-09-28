@@ -229,7 +229,7 @@
       current_position: 0
       friendly_name: 'Beneden achter groot: Level'
       node_id: 10
-      state: open
+      state: closed
       supported_features: 7
     cover.beneden_voor_groot_level:
       current_position: 0
@@ -237,7 +237,7 @@
       node_id: 18
       state: closed
       supported_features: 7
-    cover.boven_achter_groot_level_2:
+    cover.boven_achter_groot_level:
       current_position: 0
       friendly_name: 'Boven achter groot: Level'
       node_id: 23
@@ -253,7 +253,7 @@
       current_position: 0
       friendly_name: 'Boven voor groot: Level'
       node_id: 13
-      state: open
+      state: closed
       supported_features: 7
     cover.boven_voor_klein_level:
       current_position: 0
@@ -261,30 +261,6 @@
       node_id: 12
       state: closed
       supported_features: 7
-    switch.beneden_achter_groot_switch:
-      friendly_name: 'Beneden achter groot: Switch'
-      node_id: 10
-      state: 'on'
-    switch.beneden_voor_groot_switch:
-      friendly_name: 'Beneden voor groot: Switch'
-      node_id: 18
-      state: 'on'
-    switch.boven_achter_groot_switch:
-      friendly_name: 'Boven achter groot: Switch'
-      node_id: 23
-      state: 'off'
-    switch.boven_achter_klein_switch:
-      friendly_name: 'Boven achter klein: Switch'
-      node_id: 11
-      state: 'on'
-    switch.boven_voor_groot_switch:
-      friendly_name: 'Boven voor groot: Switch'
-      node_id: 13
-      state: 'on'
-    switch.boven_voor_klein_switch:
-      friendly_name: 'Boven voor klein: Switch'
-      node_id: 12
-      state: 'on'
 - id: '1580499655612'
   name: Haard Green
   entities:
@@ -344,18 +320,6 @@
       node_id: 18
       state: open
       supported_features: 7
-    cover.boven_achter_groot_level_2:
-      current_position: 100
-      friendly_name: 'Boven achter groot: Level'
-      node_id: 23
-      state: open
-      supported_features: 7
-    cover.boven_achter_klein_level:
-      current_position: 0
-      friendly_name: 'Boven achter klein: Level'
-      node_id: 11
-      state: closed
-      supported_features: 7
     cover.boven_voor_groot_level:
       current_position: 100
       friendly_name: 'Boven voor groot: Level'
@@ -368,30 +332,6 @@
       node_id: 12
       state: open
       supported_features: 7
-    switch.beneden_achter_groot_switch:
-      friendly_name: 'Beneden achter groot: Switch'
-      node_id: 10
-      state: 'on'
-    switch.beneden_voor_groot_switch:
-      friendly_name: 'Beneden voor groot: Switch'
-      node_id: 18
-      state: 'on'
-    switch.boven_achter_groot_switch:
-      friendly_name: 'Boven achter groot: Switch'
-      node_id: 23
-      state: 'off'
-    switch.boven_achter_klein_switch:
-      friendly_name: 'Boven achter klein: Switch'
-      node_id: 11
-      state: 'on'
-    switch.boven_voor_groot_switch:
-      friendly_name: 'Boven voor groot: Switch'
-      node_id: 13
-      state: 'on'
-    switch.boven_voor_klein_switch:
-      friendly_name: 'Boven voor klein: Switch'
-      node_id: 12
-      state: 'on'
 - id: '1591098352279'
   name: Covers Hot day
   entities:
@@ -401,7 +341,7 @@
       node_id: 10
       state: closed
       supported_features: 7
-    cover.boven_achter_groot_level_2:
+    cover.boven_achter_groot_level:
       current_position: 15
       friendly_name: 'Boven achter groot: Level'
       node_id: 23
@@ -413,18 +353,6 @@
       node_id: 11
       state: open
       supported_features: 7
-    switch.beneden_achter_groot_switch:
-      friendly_name: 'Beneden achter groot: Switch'
-      node_id: 10
-      state: 'on'
-    switch.boven_achter_groot_switch:
-      friendly_name: 'Boven achter groot: Switch'
-      node_id: 23
-      state: 'off'
-    switch.boven_achter_klein_switch:
-      friendly_name: 'Boven achter klein: Switch'
-      node_id: 11
-      state: 'on'
 - id: '1597237104055'
   name: Front cover half
   entities:
@@ -514,19 +442,3 @@
       node_id: 2
       state: 'on'
       supported_features: 33
-    switch.eettafel_switch:
-      friendly_name: 'Eettafel: Switch'
-      node_id: 3
-      state: 'off'
-    switch.keuken_lamp_switch:
-      friendly_name: 'Keuken lamp: Switch'
-      node_id: 5
-      state: 'off'
-    switch.keuken_spots_switch:
-      friendly_name: 'Keuken spots: Switch'
-      node_id: 4
-      state: 'off'
-    switch.salontafel_switch:
-      friendly_name: 'Salontafel: Switch'
-      node_id: 2
-      state: 'off'

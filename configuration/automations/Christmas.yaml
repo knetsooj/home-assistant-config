@@ -4,8 +4,8 @@
     platform: time
     at: '06:30:00'
   action:
-   - service: homeassistant.turn_on
-     entity_id: switch.sonoffs20_3
+  - service: homeassistant.turn_on
+    entity_id: switch.sonoffs20_3
 
 #turns it off an hour after sunrise
 - alias: Turn off christmas tree light
@@ -13,5 +13,5 @@
     platform: state
     entity_id: binary_sensor.qubino_eettafel_sensor
   action:
-   - service: homeassistant.turn_off
-     entity_id: switch.sonoffs20_3
+  - service: homeassistant.turn_off
+    entity_id: switch.sonoffs20_3

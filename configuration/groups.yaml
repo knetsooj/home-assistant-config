@@ -12,21 +12,21 @@ bdefault_view:
     - group.afval
     - group.keuken
 
-     #updater component
+    #updater component
     - persistent_notification.1
 #    - media_player.kodi_rpi
 #    - media_player.sony_tv
 
 view_weer:
- name: Weer
- view: yes
- icon: mdi:white-balance-sunny
- entities:
-   - group.weer_uitgebreid
-   - group.weer_voorspelling
-   - camera.Buienradar
-   - group.weather_card_forecast
-   
+name: Weer
+view: yes
+icon: mdi:white-balance-sunny
+entities:
+  - group.weer_uitgebreid
+  - group.weer_voorspelling
+  - camera.Buienradar
+  - group.weather_card_forecast
+
 view_camera:    
   name: Camera
   view: yes

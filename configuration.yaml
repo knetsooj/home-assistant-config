@@ -42,15 +42,15 @@ logger:
     homeassistant.components.mqtt: error
 #    homeassistant.components.light: error
 logbook:
-  include:
-    domains:
-      - automation
-      - switch
+#  include:
+#    domains:
+#      - automation
+#      - switch
 recorder:
   purge_keep_days: 30
   include:
-    domains:
-      - device_tracker
+#    domains:
+#      - device_tracker
     entities:
       - sensor.solaredge_ac_power
       - sensor.solaredge_ac_energy_kwh
@@ -79,10 +79,10 @@ panel_iframe:
     title: PVoutput 
     icon: 'mdi:vector-polyline'
     url:  !secret panel_pvoutput_url
-  nodered:
-    title: NodeRed 
-    icon: 'mdi:sitemap'
-    url:  !secret panel_nodered_url
+  dsmr:
+    title: dsmr 
+    icon: 'mdi:counter'
+    url:  !secret panel_dsmr_url
   portainer:
     title: Portainer 
     icon: 'mdi:docker'
@@ -109,7 +109,6 @@ input_text:
 light: !include configuration/light.yaml
 media_player: !include configuration/media_player.yaml
 notify: !include configuration/notify.yaml
-#panel_iframe: !include_dir_merge_named panel_iframe/
 plant: !include configuration/plant.yaml
 rest_command: !include configuration/rest_command.yaml
 scene: !include scenes.yaml
@@ -146,17 +145,17 @@ telegram_bot:
 
 utility_meter:
   gas_daily:
-    source: sensor.gas
+    source: sensor.dsmr_consumption_gas_delivered
     cycle: daily 
   gas_monthly:
-    source: sensor.gas
+    source: sensor.dsmr_consumption_gas_delivered
     cycle: monthly
   grid_energy_consumption_daily_offpeak:
-    source: sensor.energy_consumption_low
+    source: sensor.dsmr_day_consumption_electricity1
     cycle: daily
 
   grid_energy_consumption_daily_peak:
-    source: sensor.energy_consumption_normal
+    source: sensor.dsmr_day_consumption_electricity2
     cycle: daily
 
   grid_energy_consumption_monthly:
@@ -183,7 +182,7 @@ utility_meter:
     cycle: monthly  
 
 fastdotcom:
- 
+
 #Seat API 
 mind:
   username: !secret Seat_mail
@@ -216,11 +215,9 @@ octoprint:
 #Google home
 google_assistant:
   project_id: !secret google_project
- # api_key: !secret google_api
   exposed_domains:
     - switch
     - light
-#    - group
     - climate 
     - media_player
     - covers

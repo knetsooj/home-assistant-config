@@ -56,11 +56,9 @@
   currency: EUR
   display_options:
     - exchangerate  
- 
- #DSMR
-#- platform: dsmr
-#  port: /dev/ttyUSB0
-#  dsmr_version: 4
+    
+#DSMR
+- platform: dsmr_reader
 
 #climate
 - platform: template
@@ -82,6 +80,6 @@
     - type: memory_free 
     - type: last_boot
     - type: load_15m
- 
+
 #Version
 - platform: version
