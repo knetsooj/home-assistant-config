@@ -8,4 +8,4 @@
   interval_seconds: 12
   # Seconds to wait till marking someone as not home after not being seen
   # (default: 180)
-  consider_home: 60
+  consider_home: 180

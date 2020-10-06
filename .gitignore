@@ -31,3 +31,4 @@ mind.conf
 customize.yaml
 # Specific keeps
 !.gitkeep
+esphome
