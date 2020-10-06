@@ -1,0 +1,7 @@
+---  
+  # Expose circadan lighting to IKEA bulbs
+  platform: circadian_lighting
+  lights_ct:
+    - light.booglamp
+    - light.slaapkamer 
+  max_brightness: 75

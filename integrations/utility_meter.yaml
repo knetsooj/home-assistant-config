@@ -1,0 +1,38 @@
+---
+  utility_meter:
+    gas_daily:
+      source: sensor.dsmr_consumption_gas_delivered
+      cycle: daily 
+    gas_monthly:
+      source: sensor.dsmr_consumption_gas_delivered
+      cycle: monthly
+    grid_energy_consumption_daily_offpeak:
+      source: sensor.dsmr_day_consumption_electricity1
+      cycle: daily
+  
+    grid_energy_consumption_daily_peak:
+      source: sensor.dsmr_day_consumption_electricity2
+      cycle: daily
+  
+    grid_energy_consumption_monthly:
+      source: sensor.grid_energy_consumption_daily
+      cycle: monthly
+      
+    grid_energy_production_daily_offpeak:
+      source: sensor.energy_production_low
+      cycle: daily
+    
+    grid_energy_production_daily_peak:
+      source: sensor.energy_production_normal
+      cycle: daily 
+    
+    grid_energy_production_monthly:
+      source: sensor.grid_energy_production_daily
+      cycle: monthly
+      
+    pv_energy_daily:  
+      source: sensor.solaredge_ac_energy_kwh
+      cycle: daily
+    pv_energy_monthly:
+      source: sensor.solaredge_ac_energy_kwh
+      cycle: monthly  

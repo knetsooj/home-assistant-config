@@ -1,3 +1,14 @@
+---
+  # This file is used by the automations editor
+  # in the Home Assistant frontend.
+  #
+  # Since i think the frontend editor doesnt always work as it should im converting all automations to yaml
+  # It will go empty here
+  # This file must exist for the frontend Automation editor to work.
+  # Hence, it is here, empty. 
+  #
+  # If you are looking for my automations: See automations folder.
+  #[]
 - id: '1'
   alias: Set Theme
   description: ''
@@ -347,7 +358,7 @@
 - id: '20'
   alias: Close covers in the evening
   trigger:
-  - below: '-5'
+  - below: -5
     entity_id: sun.sun
     platform: numeric_state
     value_template: '{{ state.attributes.elevation }}'

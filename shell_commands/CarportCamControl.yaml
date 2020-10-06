@@ -1,0 +1,7 @@
+---
+  # carportcampos1: !secret shell_carport_cam_url_1
+  # carportcampos2: !secret shell_carport_cam_url_2
+  # carportcamUp: !secret shell_carport_cam_url_MoveUp
+  # carportcamDown: !secret shell_carport_cam_url_MoveDown
+  # carportcamLeft: !secret shell_carport_cam_url_MoveLeft
+  # carportcamRight: !secret shell_carport_cam_url_MoveRight

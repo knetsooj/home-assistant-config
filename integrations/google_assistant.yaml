@@ -1,0 +1,14 @@
+---
+  # The google_assistant integration allows you to control things via Google Assistant
+  # on your mobile, tablet or Google Home device.
+  #
+  # https://www.home-assistant.io/integrations/google_assistant/
+  #
+  google_assistant:
+    project_id: !secret google_project
+    exposed_domains:
+      - switch
+      - light
+      - climate 
+      - media_player
+      - covers

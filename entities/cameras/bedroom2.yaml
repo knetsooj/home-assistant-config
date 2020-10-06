@@ -1,0 +1,9 @@
+---
+  # The mjpeg camera platform allows you to integrate IP cameras which are capable to stream their video with MJPEG into Home Assistant.
+  # Used to show motioneye cameras on lovelace
+  #
+  # https://www.home-assistant.io/integrations/mjpeg/
+  #
+  platform: mjpeg
+  mjpeg_url: !secret URL_Cam_bedroom2
+  name: bedroom2

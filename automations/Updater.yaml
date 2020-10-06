@@ -1,0 +1,10 @@
+# - alias: HASS update available
+#   trigger:
+#   - platform: state
+#     entity_id: updater.updater      
+#   action:
+#   - service: persistent_notification.create #notify.pushbullet
+#     data:
+#       title: Systeembericht - 
+#       message: "Er is een nieuwe versie {{ states.updater.updater.state }} van Home Assistant beschikbaar! Zie release notes https://home-assistant.io/blog/categories/release-notes/"
+#       notification_id: "1"

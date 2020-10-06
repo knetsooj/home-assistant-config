@@ -1,0 +1,10 @@
+---
+  # The discovery component enables automatic discovery and configuration
+  # of devices within the network
+  #
+  # https://www.home-assistant.io/integrations/discovery/
+  #
+  discovery:
+    ignore:
+      - songpal
+      - belkin_wemo

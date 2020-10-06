@@ -1,0 +1,12 @@
+---
+  # HACS intergration
+  # This component is for cars that have a module from Mind Mobility like the cars (Volkswagen, Seat, Audi, Skoda) from importer PON in the Netherlands.
+  # 
+  # https://github.com/bramkragten/mind
+  #
+  mind:
+    username: !secret Seat_mail
+    password: !secret Seat_password
+    #Seat
+    client_id: 8ba04cb3869f4b568ea54fc57154d957
+    client_secret: b7fD6c394a7c4aFd998afA70Cb5fED86

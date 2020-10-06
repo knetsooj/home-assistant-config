@@ -1,0 +1,14 @@
+# # Na een restart van HASS worden de volgende Booleans naar een init waarde gezet.
+# alias: Init bool
+# trigger:
+#   platform: event
+#   event_type: homeassistant_start
+#   action:
+#     - service: homeassistant.turn_off
+#       entity_id: input_boolean.zwave_ready
+#     - service: homeassistant.turn_off
+#       entity_id: input_boolean.zwave_complete
+#     - service: homeassistant.turn_off
+#       entity_id: input_boolean.naar_bed
+#     - service: homeassistant.turn_off
+#       entity_id: input_boolean.avond_licht_triggered

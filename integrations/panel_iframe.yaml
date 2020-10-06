@@ -1,0 +1,20 @@
+---
+  # The panel_iframe support allows you to add additional panels to your Home Assistant frontend.
+  # The panels are listed in the sidebar
+  #
+  # https://www.home-assistant.io/integrations/panel_iframe/
+  #
+  panel_iframe:
+    pvoutput:
+      title: PVoutput 
+      icon: 'mdi:vector-polyline'
+      url:  !secret panel_pvoutput_url
+    dsmr:
+      title: dsmr 
+      icon: 'mdi:counter'
+      url:  !secret panel_dsmr_url
+    portainer:
+      title: Portainer 
+      icon: 'mdi:docker'
+      url:  !secret panel_portainer_url
+  

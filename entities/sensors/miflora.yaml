@@ -1,0 +1,24 @@
+  platform: miflora
+  name: lagepot
+  mac: 'C4:7C:8D:66:50:A5'
+  force_update: false
+  median: 3
+  monitored_conditions:
+    - moisture
+    - light
+    - temperature
+    - conductivity
+    - battery
+
+  # platform: miflora
+  # name: Arcea
+  # mac: 'C4:7C:8D:67:33:E3'
+  # force_update: false
+  # median: 3
+  # monitored_conditions:
+  #   - moisture
+  #   - light
+  #   - temperature
+  #   - conductivity
+  #   - battery    
+

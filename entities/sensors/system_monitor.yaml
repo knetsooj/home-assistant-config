@@ -1,0 +1,8 @@
+---
+  # Systemmonitor
+  platform: systemmonitor
+  resources:
+    - type: disk_use_percent
+    - type: memory_free 
+    - type: last_boot
+    - type: load_15m

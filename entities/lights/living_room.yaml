@@ -1,0 +1,8 @@
+---
+  # Shelly rgbw device for fireplace ledstrip
+  # fixed IP in router table
+  platform: flux_led
+  devices:
+    10.4.1.120:
+      name: RGBWHaard
+      mode: "rgbw"

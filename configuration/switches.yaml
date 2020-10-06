@@ -3,41 +3,41 @@
 #  automatic_add: True
 
 # Sonoff  
-- platform: mqtt
-  name: sonoffS20-1
-  command_topic: "cmnd/sonoffS20-1/power"
-  state_topic: "stat/sonoffS20-1/POWER"
-  availability_topic: "tele/sonoffS20-1/LWT"
-  qos: 1
-  payload_on: "ON"
-  payload_off: "OFF"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  retain: true
+# - platform: mqtt
+#   name: sonoffS20-1
+#   command_topic: "cmnd/sonoffS20-1/power"
+#   state_topic: "stat/sonoffS20-1/POWER"
+#   availability_topic: "tele/sonoffS20-1/LWT"
+#   qos: 1
+#   payload_on: "ON"
+#   payload_off: "OFF"
+#   payload_available: "Online"
+#   payload_not_available: "Offline"
+#   retain: true
   
-- platform: mqtt
-  name: sonoffS20-2
-  command_topic: "cmnd/sonoffS20-2/power"
-  state_topic: "stat/sonoffS20-2/POWER"
-  availability_topic: "tele/sonoffS20-2/LWT"
-  qos: 1
-  payload_on: "ON"
-  payload_off: "OFF"
-  payload_available: "Online"
-  payload_not_available: "Offline"  
-  retain: true
+# - platform: mqtt
+#   name: sonoffS20-2
+#   command_topic: "cmnd/sonoffS20-2/power"
+#   state_topic: "stat/sonoffS20-2/POWER"
+#   availability_topic: "tele/sonoffS20-2/LWT"
+#   qos: 1
+#   payload_on: "ON"
+#   payload_off: "OFF"
+#   payload_available: "Online"
+#   payload_not_available: "Offline"  
+#   retain: true
   
-- platform: mqtt
-  name: sonoffS20-3
-  command_topic: "cmnd/sonoffS20-3/power"
-  state_topic: "stat/sonoffS20-3/POWER"
-  availability_topic: "tele/sonoffS20-3/LWT"
-  qos: 1
-  payload_on: "ON"
-  payload_off: "OFF"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  retain: true
+# - platform: mqtt
+#   name: sonoffS20-3
+#   command_topic: "cmnd/sonoffS20-3/power"
+#   state_topic: "stat/sonoffS20-3/POWER"
+#   availability_topic: "tele/sonoffS20-3/LWT"
+#   qos: 1
+#   payload_on: "ON"
+#   payload_off: "OFF"
+#   payload_available: "Online"
+#   payload_not_available: "Offline"
+#   retain: true
   
 - platform: circadian_lighting
   lights_ct:

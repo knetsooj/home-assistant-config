@@ -1,0 +1,12 @@
+---
+  #climate
+  platform: template
+  sensors:
+    room_temperature:
+      value_template: '{{states.climate.thermostaat.attributes.current_temperature}}'
+      friendly_name: 'Kamer temperature'
+      unit_of_measurement: '°C'
+    room_setpoint:
+      value_template: '{{states.climate.thermostaat.attributes.temperature}}'
+      friendly_name: 'Kamer setpoint'
+      unit_of_measurement: '°C'

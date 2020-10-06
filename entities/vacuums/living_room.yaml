@@ -1,0 +1,1 @@
+# Vacuum is flashed with valetudo firmware, therfor it connects via mqtt see entities/sensors/vacuum

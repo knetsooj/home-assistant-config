@@ -1,0 +1,7 @@
+# #Stuur meterstand naar mindergas
+# - alias: Stuur gas meterstand door naar mindergas.nl
+#   trigger:
+#     platform: time
+#     at: '00:10:00'
+#   action:
+#       service: rest_command.post_meterstanden

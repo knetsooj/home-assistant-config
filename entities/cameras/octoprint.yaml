@@ -1,0 +1,9 @@
+---
+  # The mjpeg camera platform allows you to integrate IP cameras which are capable to stream their video with MJPEG into Home Assistant.
+  #
+  # https://www.home-assistant.io/integrations/mjpeg/
+  #
+  platform: mjpeg
+  name: OctoPrint
+  still_image_url: !secret OctoPrintCamUrlStill
+  mjpeg_url: !secret OctoPrintCamUrlStream

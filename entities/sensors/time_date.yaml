@@ -1,0 +1,7 @@
+---
+  #Actual date and time
+  platform: time_date
+  display_options:
+  - 'date_time'
+  - 'time'
+  - 'date'

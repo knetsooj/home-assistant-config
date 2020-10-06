@@ -1,0 +1,8 @@
+---
+  # HACS integration
+  # NEEO custom component for Home Assistant
+  #
+  # https://github.com/vinteo/hass-neeo
+  #
+  neeo:
+    host: !secret Neeo_IP

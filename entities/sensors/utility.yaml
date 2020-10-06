@@ -1,0 +1,13 @@
+---
+  platform: template
+  sensors:
+    power_consumption:
+      friendly_name: 'Power consumption'
+      unit_of_measurement: 'W'
+      value_template: >-
+        {{ (1000 * (states("sensor.dsmr_reading_electricity_currently_delivered") | float)) | int }}
+    power_production:
+      friendly_name: 'Power production'
+      unit_of_measurement: 'W'
+      value_template: >-
+        {{ (1000 * (states("sensor.dsmr_reading_electricity_currently_returned") | float)) | int }}

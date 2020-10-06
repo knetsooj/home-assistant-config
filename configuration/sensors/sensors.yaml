@@ -1,12 +1,12 @@
 #Uptime
-- platform: uptime
+#- platform: uptime
 
 #Actual date and time
-- platform: time_date
-  display_options:
-    - 'date_time'
-    - 'time'
-    - 'date'
+# - platform: time_date
+#   display_options:
+#     - 'date_time'
+#     - 'time'
+#     - 'date'
 #Yesterday
 - platform: template
   sensors:
@@ -51,14 +51,10 @@
   select: "div.pricing.closed div.discount span.price"
   scan_interval: 3600
   
-#Bitcoin
-- platform: bitcoin
-  currency: EUR
-  display_options:
-    - exchangerate  
+ 
     
 #DSMR
-- platform: dsmr_reader
+#- platform: dsmr_reader
 
 #climate
 - platform: template

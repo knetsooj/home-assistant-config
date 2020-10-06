@@ -1,0 +1,8 @@
+---
+  # vacuum 
+  platform: mqtt
+  state_topic: "valetudo/rockrobo/state"
+  json_attributes_topic: "valetudo/rockrobo/map_data"
+  name: rockrobo_map
+  value_template: 'OK'
+  scan_interval: 5

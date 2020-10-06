@@ -1,0 +1,8 @@
+---
+  # The buienradar platform uses buienradar.nl as a source for current
+  # meteorological data for your location. 
+  #
+  # https://www.home-assistant.io/integrations/buienradar/
+  #
+  platform: buienradar
+  name: buienradar

@@ -1,0 +1,6 @@
+---
+  # The buienradar camera platform uses buienradar.nl as a source for the last rain radar map.
+  #
+  # https://www.home-assistant.io/integrations/buienradar/#camera
+  #
+  platform: buienradar

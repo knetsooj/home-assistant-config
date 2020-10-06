@@ -1,0 +1,15 @@
+---
+  #
+  # Telegram on your mobile or desktop device to send and receive messages
+  # or commands to/from your Home Assistant.
+  #
+  # Currently not really in use yet, but configured and I might use it in the
+  # near future.
+  #
+  # https://www.home-assistant.io/integrations/telegram_bot/
+  #
+  telegram_bot:
+    - platform: polling
+      api_key: !secret telegram_API
+      parse_mode: html
+      allowed_chat_ids: !secret telegram_Chat_ID

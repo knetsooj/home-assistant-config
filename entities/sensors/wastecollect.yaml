@@ -1,0 +1,18 @@
+---
+  # HACS afvalbeheer 
+  platform: afvalbeheer
+  wastecollector: !secret afvalbeheer          
+  resources:                     
+    - restafval
+    - gft
+    - papier
+    - pmd
+  postcode: !secret afvalbeheerPC               
+  streetnumber: 4                
+  upcomingsensor: 1              
+  dateformat: '%d-%m-%Y'         
+  dateonly: 0                    
+  name: ""                       
+  nameprefix: 1                  
+  builtinicons: 0                
+  dutch: 1          

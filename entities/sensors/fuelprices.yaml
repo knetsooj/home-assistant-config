@@ -1,0 +1,18 @@
+---
+  #scrape
+  # Diesel sensor
+# - platform: scrape
+#   resource: !secret tankstationURL
+#   name: Diesel prijs
+#   select: "div.pricing.closed div.pump_price span.price"
+#   scan_interval: 3600
+# - platform: scrape
+#   resource: !secret tankstationURL
+#   name: Diesel adviesprijs
+#   select: "div.pricing.closed div.proposed_price span.price"
+#   scan_interval: 3600
+# - platform: scrape
+#   resource: !secret tankstationURL
+#   name: Diesel korting
+#   select: "div.pricing.closed div.discount span.price"
+#   scan_interval: 3600
