@@ -1,36 +1,80 @@
- timed_lamp:
-    alias: "Bright spots and set timer"
-    sequence:
-      # Cancel ev. old timers
-      - service: script.turn_off
-        data:
-           entity_id: script.timer_off
-      - service: scene.turn_on
-        data:
-          entity_id:
-          - scene.Spots_Kitchen_Normal
-      # Set new timer
-      - service: script.turn_on
-        data:
-           entity_id: script.timer_off
-
- timer_off:
-    alias: "Dim spots after 5 minutes"
-    sequence:
-      - delay:
-          minutes: 5
-      - condition: and
-        conditions:
-        - condition: state
-          entity_id: input_boolean.naar_bed
-          state: 'off'
-        - condition: state
-          entity_id: input_boolean.avond_licht_triggered
-          state: 'off'
-        - condition: state
-          entity_id: light.qubino_keuken_spots_level
-          state: 'on'
-      - service: scene.turn_on
-        data:
-          entity_id:
-          - scene.Spots_Kitchen_Dim
+timed_lamp:
+  alias: Bright spots and set timer
+  sequence:
+  - service: script.turn_off
+    data:
+      entity_id: script.timer_off
+  - service: scene.turn_on
+    data:
+      entity_id:
+      - scene.Spots_Kitchen_Normal
+  - service: script.turn_on
+    data:
+      entity_id: script.timer_off
+timer_off:
+  alias: Dim spots after 5 minutes
+  sequence:
+  - delay:
+      minutes: 5
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.naar_bed
+      state: 'off'
+    - condition: state
+      entity_id: input_boolean.avond_licht_triggered
+      state: 'off'
+    - condition: state
+      entity_id: light.qubino_keuken_spots_level
+      state: 'on'
+  - service: scene.turn_on
+    data:
+      entity_id:
+      - scene.Spots_Kitchen_Dim
+spot_trash_bin:
+  alias: Goto prullenbak
+  sequence:
+  - service: vacuum.send_command
+    data:
+      entity_id: vacuum.rockrobo
+      command: go_to
+      params:
+        spot_id: Prullenbak
+    entity_id: vacuum.rockrobo
+  mode: single
+clean_living_room:
+  alias: Clean living room
+  sequence:
+  - service: vacuum.send_command
+    data:
+      entity_id: vacuum.rockrobo
+      command: zoned_cleanup
+      params:
+        zone_ids:
+        - Salontafel
+    entity_id: vacuum.rockrobo
+  mode: single
+clean_dining_table:
+  alias: Clean dining table
+  sequence:
+  - service: vacuum.send_command
+    data:
+      entity_id: vacuum.rockrobo
+      command: zoned_cleanup
+      params:
+        zone_ids:
+        - Eettafel
+    entity_id: vacuum.rockrobo
+  mode: single
+clean_kitchen:
+  alias: Clean kitchen
+  sequence:
+  - service: vacuum.send_command
+    data:
+      entity_id: vacuum.rockrobo
+      command: zoned_cleanup
+      params:
+        zone_ids:
+        - Keuken
+    entity_id: vacuum.rockrobo
+  mode: single
