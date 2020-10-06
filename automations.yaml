@@ -1,14 +1,30 @@
 - id: '1'
-  alias: Set  dark Theme
+  alias: Set Theme
   description: ''
   trigger:
-  - at: '21:30:00'
-    platform: time
+  - platform: time_pattern
+    minutes: '1'
   condition: []
   action:
-  - data:
-      name: ios-dark-mode
-    service: frontend.set_theme
+  - choose:
+    - conditions:
+      - condition: sun
+        before: sunset
+        after: sunrise
+      sequence:
+      - data:
+          name: default
+        service: frontend.set_theme
+    - conditions:
+      - condition: sun
+        before: sunrise
+        after: sunset
+      sequence:
+      - data:
+          name: Caule Dark Grey
+        service: frontend.set_theme
+    default: []
+  mode: single
 - id: '3'
   alias: clear weather delay
   trigger:
@@ -21,13 +37,15 @@
   - service: input_boolean.turn_off
     entity_id: input_boolean.clear_weather
 - id: '4'
-  alias: Boil water in the morning
+  alias: Zet waterkoker aan op ingestelde tijd
   trigger:
   - platform: time
-    at: 06:45:00
+    at: input_datetime.waterkokertime
   action:
-  - service: homeassistant.turn_on
-    entity_id: switch.sonoffs20_1
+  - service: switch.turn_on
+    data: {}
+    entity_id: switch.sonoff_waterkoker_relay
+  mode: single
 - id: '5'
   alias: Wake-me up using bedroom lights
   trigger:
@@ -37,18 +55,17 @@
   - condition: state
     entity_id: input_boolean.wakeup_enabled
     state: 'on'
-  - condition: or
+  - condition: and
     conditions:
-    - condition: state
-      entity_id: input_boolean.wakeup_weekend
-      state: 'on'
-  - condition: template
-    value_template: '{{ utcnow().timestamp() + 60 > state_attr(''sensor.mi_8_se_next_alarm'',
-      ''Time in Milliseconds'') / 1000 }}
-
-      '
-  - condition: template
-    value_template: '{{state_attr(''sensor.mi_8_se_next_alarm'', ''Package'') == ''com.android.deskclock''}}'
+    - condition: template
+      value_template: '{{ utcnow().timestamp() + 60 > state_attr(''sensor.mi_8_se_next_alarm'',
+        ''Time in Milliseconds'') / 1000 }}'
+    - condition: template
+      value_template: '{{state_attr(''sensor.mi_8_se_next_alarm'', ''Package'') ==
+        ''com.android.deskclock''}}'
+  - condition: state
+    entity_id: light.slaapkamer
+    state: 'off'
   action:
   - data:
       brightness: 200
@@ -330,7 +347,7 @@
 - id: '20'
   alias: Close covers in the evening
   trigger:
-  - below: -5
+  - below: '-5'
     entity_id: sun.sun
     platform: numeric_state
     value_template: '{{ state.attributes.elevation }}'
@@ -367,7 +384,7 @@
     service: homeassistant.turn_on
   - data:
       entity_id: cover.boven_achter_klein_level
-      position: 100
+      position: 0
     service: cover.set_cover_position
   mode: restart
 - id: '21'
@@ -391,13 +408,14 @@
       state: 'off'
   action:
   - data:
-      entity_id: cover.boven_achter_groot_level
       position: 100
     service: cover.set_cover_position
+    entity_id: cover.boven_achter_groot_level
   - data:
-      entity_id: cover.fibaro_system_boven_achter_klein_level
       position: 100
     service: cover.set_cover_position
+    entity_id: cover.boven_achter_klein_level
+  mode: single
 - id: '22'
   alias: Open Covers non workday (kids)
   trigger:
@@ -442,7 +460,7 @@
     service: cover.set_cover_position
   - data:
       entity_id: cover.boven_achter_klein_level
-      position: 100
+      position: 0
     service: cover.set_cover_position
   mode: single
 - id: '24'
@@ -773,17 +791,6 @@
       message: Film
   - service: scene.turn_on
     entity_id: scene.Dimmed_lights_movie
-- id: '1585379364959'
-  alias: Set light theme
-  description: ''
-  trigger:
-  - at: 06:00:00
-    platform: time
-  condition: []
-  action:
-  - data:
-      name: Google Light Theme
-    service: frontend.set_theme
 - id: '1585379705879'
   alias: Zwave ready
   description: ''
@@ -869,39 +876,37 @@
   - data: {}
     service: shell_command.upgrade_hass
 - id: '1600454827163'
-  alias: 3dPrinterReady
+  alias: 3dPrinter
   description: ''
   trigger:
   - platform: state
     entity_id: binary_sensor.octoprint_printing
-    to: 'off'
-    from: 'on'
   condition: []
   action:
-  - service: notify.mobile_app_mi_8_se
-    data:
-      message: Ook maar meteen uitgezet!
-      title: 3D printer is klaar
-      data:
-        image: /api/camera_proxy/camera.octoprint
-        ttl: 0
-  - type: turn_off
-    device_id: cb92db0d43b54f99982da8565fa9e05e
-    entity_id: switch.sonoff_otgw_sonoff_3
-    domain: switch
-  mode: single
-- id: '1600505480315'
-  alias: 3dPrinterStart
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.octoprint_printing
-    from: 'off'
-    to: 'on'
-  condition: []
-  action:
-  - service: notify.mobile_app_mi_8_se
-    data:
-      message: Drink maar even koffie
-      title: 3D printer is gestart
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.octoprint_printing
+        state: 'off'
+      sequence:
+      - service: notify.mobile_app_mi_8_se
+        data:
+          message: Ook maar meteen uitgezet!
+          title: 3D printer is klaar
+          data:
+            image: /api/camera_proxy/camera.octoprint
+            ttl: 0
+      - service: switch.turn_off
+        data: {}
+        entity_id: switch.sonoff_3dprinter_relay
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.octoprint_printing
+        state: 'on'
+      sequence:
+      - service: notify.mobile_app_mi_8_se
+        data:
+          message: Drink maar even koffie
+          title: 3D printer is gestart
+    default: []
   mode: single
