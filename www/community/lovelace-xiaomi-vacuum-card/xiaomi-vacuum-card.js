@@ -1,6 +1,6 @@
 ((LitElement) => {
     console.info(
-        '%c XIAOMI_VACUUM_CARD %c 4.0.0 ',
+        '%c XIAOMI_VACUUM_CARD %c 4.0.1 ',
         'color: cyan; background: black; font-weight: bold;',
         'color: darkblue; background: white; font-weight: bold;',
     );
@@ -405,4 +405,4 @@
     }
 
     customElements.define('xiaomi-vacuum-card', XiaomiVacuumCard);
-})(window.LitElement || Object.getPrototypeOf(customElements.get("hui-view")));
+})(window.LitElement || Object.getPrototypeOf(customElements.get("hui-masonry-view") || customElements.get("hui-view")));

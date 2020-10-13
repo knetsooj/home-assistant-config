@@ -7,3 +7,6 @@
   homeassistant:
     # Lets me customize individual entities
     customize: !include_dir_merge_named ../customizations/entities
+    # Alternative directories to expose media
+    media_dirs:
+      recording: /share/motioneye
