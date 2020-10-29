@@ -1,0 +1,17 @@
+alias: Mark person as home
+trigger:
+  - platform: state
+    entity_id: input_select.kevin_status
+    to: 'Just arrived'
+    for:
+      minutes: 10
+  - platform: state
+    entity_id: input_select.kevin_status
+    from: 'Just left'
+    to: 'Just arrived'
+condition:
+action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.kevin_status
+      option: Home

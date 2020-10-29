@@ -1,0 +1,13 @@
+
+alias: Mark Person as away
+trigger:
+  - platform: state
+    entity_id: input_select.kevin_status
+    to: 'Just left'
+    for:
+      minutes: 10
+action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.kevin_status
+      option: Away

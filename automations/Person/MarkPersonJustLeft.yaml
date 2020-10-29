@@ -1,0 +1,11 @@
+alias: Mark Person as just left
+trigger:
+  - platform: state
+    entity_id: device_tracker.telefoonkevin
+    from: 'home'
+    to: 'not_home'
+action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.kevin_status
+      option: Just left
