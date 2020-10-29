@@ -120,11 +120,12 @@ action:
                 device_id: 412043ea0b0311eba2787b95093cf6d1
                 entity_id: sensor.wasmachine_electric_w
                 domain: sensor
-                below: 5
+                below: "5"
         sequence:
           - service: input_select.select_option
             data:
               option: "Done"
+              entity_id: input_select.wasmachine_state
           - service: notify.mobile_app_mi_9_se
             data:
               message: "De wasmachine is klaar"
