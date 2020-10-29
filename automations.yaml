@@ -1,14 +1,3 @@
----
-  # This file is used by the automations editor
-  # in the Home Assistant frontend.
-  #
-  # Since i think the frontend editor doesnt always work as it should im converting all automations to yaml
-  # It will go empty here
-  # This file must exist for the frontend Automation editor to work.
-  # Hence, it is here, empty. 
-  #
-  # If you are looking for my automations: See automations folder.
-  #[]
 - id: '1'
   alias: Set Theme
   description: ''
@@ -814,20 +803,6 @@
   - data: {}
     entity_id: input_boolean.zwave_ready
     service: homeassistant.turn_on
-- id: '1590404145973'
-  alias: Telegram wasmachine klaar
-  description: ''
-  trigger:
-  - entity_id: input_boolean.wasmachine_droger
-    for: 00:05:00
-    from: 'on'
-    platform: state
-    to: 'off'
-  condition: []
-  action:
-  - data:
-      message: Wasmachine is klaar
-    service: notify.kevinmi8
 - id: '1591276429324'
   alias: Telegram Reminder containers
   description: ''

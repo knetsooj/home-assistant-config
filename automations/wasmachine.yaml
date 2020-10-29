@@ -1,0 +1,134 @@
+alias: Wasmachine Notifier
+description: >-
+  Select input option washing machine 
+  based on current power use
+mode: single
+id: "1602830586349"
+
+trigger:
+  - platform: state
+    entity_id: sensor.wasmachine_electric_w
+
+condition: []
+
+action:
+  - choose:
+      # Machine turned off
+      - conditions:
+        - condition: and
+          conditions:
+            - condition: or
+              conditions:
+                - condition: state
+                  entity_id: input_select.wasmachine_state
+                  state: "Idle"
+                - condition: state
+                  entity_id: input_select.wasmachine_state
+                  state: "Done"
+            - type: is_value
+              condition: device
+              device_id: 412043ea0b0311eba2787b95093cf6d1
+              entity_id: sensor.wasmachine_electric_w
+              domain: sensor
+              below: "5"
+        sequence:
+          - service: input_select.select_option
+            data:
+              option: "Off"
+            entity_id: input_select.wasmachine_state
+
+      # Machine Turned on 
+      - conditions:
+          - condition: and
+            conditions:
+              - condition: state
+                entity_id: input_select.wasmachine_state
+                state: "Off"
+              - type: is_value
+                condition: device
+                device_id: 412043ea0b0311eba2787b95093cf6d1
+                entity_id: sensor.wasmachine_electric_w
+                domain: sensor
+                above: "1"
+        sequence:
+          - service: input_select.select_option
+            data:
+              option: "Idle"
+            entity_id: input_select.wasmachine_state
+
+      # Machine Washing
+      - conditions:
+          - condition: and
+            conditions:
+              - condition: or
+                conditions:
+                  - condition: state
+                    entity_id: input_select.wasmachine_state
+                    state: "Idle"
+                  - condition: state
+                    entity_id: input_select.wasmachine_state
+                    state: "Done"
+              - type: is_value
+                condition: device
+                device_id: 412043ea0b0311eba2787b95093cf6d1
+                entity_id: sensor.wasmachine_electric_w
+                domain: sensor
+                above: "10"
+        sequence:
+          - service: input_select.select_option
+            data:
+              option: "Washing"
+            entity_id: input_select.wasmachine_state
+
+      # Machine Spin drying
+      - conditions:
+          - type: is_value
+            condition: device
+            device_id: 412043ea0b0311eba2787b95093cf6d1
+            entity_id: sensor.wasmachine_electric_w
+            domain: sensor
+            above: "300"
+        sequence:
+          - wait_for_trigger:
+              - type: value
+                platform: device
+                device_id: 412043ea0b0311eba2787b95093cf6d1
+                entity_id: sensor.wasmachine_electric_w
+                domain: sensor
+                above: "300"
+                below: "600"
+                for:
+                  hours: 0
+                  minutes: 1
+                  seconds: 0
+            continue_on_timeout: false
+            timeout: "1:01"
+          - service: input_select.select_option
+            data:
+              option: "Spin Drying"
+            entity_id: input_select.wasmachine_state
+
+      # Machine Done
+      - conditions:
+          - condition: and
+            conditions:
+              - condition: state
+                entity_id: input_select.wasmachine_state
+                state: "Spin Drying"
+              - type: is_value
+                condition: device
+                device_id: 412043ea0b0311eba2787b95093cf6d1
+                entity_id: sensor.wasmachine_electric_w
+                domain: sensor
+                below: 5
+        sequence:
+          - service: input_select.select_option
+            data:
+              option: "Done"
+          - service: notify.mobile_app_mi_9_se
+            data:
+              message: "De wasmachine is klaar"
+              title: "Goed nieuws!"
+              
+    default: []
+
