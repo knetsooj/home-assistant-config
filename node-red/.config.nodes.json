@@ -1,7 +1,7 @@
 {
     "node-red": {
         "name": "node-red",
-        "version": "1.2.2",
+        "version": "1.2.3",
         "local": false,
         "nodes": {
             "inject": {
@@ -614,7 +614,7 @@
     },
     "node-red-contrib-influxdb": {
         "name": "node-red-contrib-influxdb",
-        "version": "0.4.1",
+        "version": "0.5.0",
         "local": false,
         "nodes": {
             "influxdb": {
@@ -833,7 +833,7 @@
     },
     "node-red-node-email": {
         "name": "node-red-node-email",
-        "version": "1.8.0",
+        "version": "1.8.2",
         "local": false,
         "nodes": {
             "email": {
@@ -869,7 +869,7 @@
     },
     "node-red-node-geofence": {
         "name": "node-red-node-geofence",
-        "version": "0.1.3",
+        "version": "0.1.4",
         "local": false,
         "nodes": {
             "geofence": {
@@ -1024,7 +1024,7 @@
     },
     "node-red-node-serialport": {
         "name": "node-red-node-serialport",
-        "version": "0.11.0",
+        "version": "0.11.1",
         "local": false,
         "nodes": {
             "serialport": {
@@ -1181,7 +1181,7 @@
     },
     "node-red-dashboard": {
         "name": "node-red-dashboard",
-        "version": "2.23.4",
+        "version": "2.23.5",
         "local": false,
         "nodes": {
             "ui_base": {
@@ -1447,6 +1447,100 @@
                 "local": false,
                 "module": "node-red-node-tail",
                 "file": "/opt/node_modules/node-red-node-tail/28-tail.js"
+            }
+        }
+    },
+    "node-red-contrib-opcua": {
+        "name": "node-red-contrib-opcua",
+        "version": "0.2.89",
+        "local": false,
+        "nodes": {
+            "OpcUa-Item": {
+                "name": "OpcUa-Item",
+                "types": [
+                    "OpcUa-Item"
+                ],
+                "enabled": true,
+                "local": true,
+                "module": "node-red-contrib-opcua",
+                "file": "/config/node-red/node_modules/node-red-contrib-opcua/opcua/101-opcuaitem.js"
+            },
+            "OpcUa-Client": {
+                "name": "OpcUa-Client",
+                "types": [
+                    "OpcUa-Client"
+                ],
+                "enabled": true,
+                "local": true,
+                "module": "node-red-contrib-opcua",
+                "file": "/config/node-red/node_modules/node-red-contrib-opcua/opcua/102-opcuaclient.js"
+            },
+            "OpcUa-Browser": {
+                "name": "OpcUa-Browser",
+                "types": [
+                    "OpcUa-Browser"
+                ],
+                "enabled": true,
+                "local": true,
+                "module": "node-red-contrib-opcua",
+                "file": "/config/node-red/node_modules/node-red-contrib-opcua/opcua/103-opcuabrowser.js"
+            },
+            "OpcUa-Server": {
+                "name": "OpcUa-Server",
+                "types": [
+                    "OpcUa-Server"
+                ],
+                "enabled": true,
+                "local": true,
+                "module": "node-red-contrib-opcua",
+                "file": "/config/node-red/node_modules/node-red-contrib-opcua/opcua/104-opcuaserver.js"
+            },
+            "OpcUa-Endpoint": {
+                "name": "OpcUa-Endpoint",
+                "types": [
+                    "OpcUa-Endpoint"
+                ],
+                "enabled": true,
+                "local": true,
+                "module": "node-red-contrib-opcua",
+                "file": "/config/node-red/node_modules/node-red-contrib-opcua/opcua/105-opcuaendpoint.js"
+            },
+            "OpcUa-Event": {
+                "name": "OpcUa-Event",
+                "types": [
+                    "OpcUa-Event"
+                ],
+                "enabled": true,
+                "local": true,
+                "module": "node-red-contrib-opcua",
+                "file": "/config/node-red/node_modules/node-red-contrib-opcua/opcua/106-opcuaevent.js"
+            },
+            "OpcUa-Method": {
+                "name": "OpcUa-Method",
+                "types": [
+                    "OpcUa-Method"
+                ],
+                "enabled": true,
+                "local": true,
+                "module": "node-red-contrib-opcua",
+                "file": "/config/node-red/node_modules/node-red-contrib-opcua/opcua/107-opcuamethod.js"
+            }
+        }
+    },
+    "node-red-contrib-meta": {
+        "name": "node-red-contrib-meta",
+        "version": "2.0.1",
+        "local": false,
+        "nodes": {
+            "meta": {
+                "name": "meta",
+                "types": [
+                    "meta"
+                ],
+                "enabled": true,
+                "local": true,
+                "module": "node-red-contrib-meta",
+                "file": "/config/node-red/node_modules/node-red-contrib-meta/node.js"
             }
         }
     }

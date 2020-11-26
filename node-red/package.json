@@ -3,5 +3,8 @@
     "description": "A Node-RED Project",
     "version": "0.0.1",
     "private": true,
-    "dependencies": {}
+    "dependencies": {
+        "node-red-contrib-meta": "~2.0.1",
+        "node-red-contrib-opcua": "~0.2.89"
+    }
 }
