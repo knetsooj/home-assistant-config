@@ -1,0 +1,109 @@
+<!--
+
+Copyright 2015 Valmet Automation Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+-->
+
+<script type="text/javascript">
+    RED.nodes.registerType('OpcUa-Endpoint', {
+        category: 'config',
+        defaults: {
+            endpoint: {value: "", required: true},
+            secpol: {value: "None"},
+            secmode: {value: "None"},
+            login: {value: false}
+        },
+        credentials: {
+            user: {type: "text"},
+            password: {type: "password"}
+        },
+        label: function () {
+            return this.endpoint || "OPC UA Endpoint";
+        },
+        oneditprepare: function () {
+            try {
+                var loginCheckbox = $("#node-config-input-login");
+                var authRow = $(".node-input-useAuth-row");
+
+                if (this.login) {
+                    loginCheckbox.prop('checked', true);
+                    authRow.show();
+                } else {
+                    loginCheckbox.prop('checked', false);
+                    authRow.hide();
+                }
+
+                loginCheckbox.change(function () {
+                    if ($(this).is(":checked")) {
+                        authRow.show();
+                    } else {
+                        authRow.hide();
+                        $('#node-input-user').val('');
+                        $('#node-input-password').val('');
+                    }
+                });
+
+            } catch (err) {
+                console.log(err);
+            }
+            finally {
+                console.log("finally");
+            }
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="OpcUa-Endpoint">
+    <div class="form-row">
+        <label for="node-config-input-endpoint"><i class="icon-link"></i> Endpoint</label>
+        <input type="text" id="node-config-input-endpoint">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-secpol"><i class="icon-key"></i> SecurityPolicy</label>
+        <select type="text" id="node-config-input-secpol">
+            <option value="None">None</option>
+            <option value="Basic128">Basic128</option>
+            <option value="Basic192">Basic192</option>
+            <option value="Basic192Rsa15">Basic192Rsa15</option>
+            <option value="Basic256Rsa15">Basic256Rsa15</option>
+            <option value="Basic256Sha256">Basic256Sha256</option>
+            <option value="Aes128_Sha256">Aes128_Sha256</option>
+            <option value="Aes128_Sha256_RsaOaep">Aes128_Sha256_RsaOaep</option>
+            <option value="PubSub_Aes128_CTR">PubSub_Aes128_CTR</option>
+            <option value="PubSub_Aes256_CTR">PubSub_Aes256_CTR</option>
+            <option value="Basic128Rsa15">Basic128Rsa15</option>
+            <option value="Basic256">Basic256</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-secmode"><i class="icon-key"></i> SecurityMode</label>
+        <select type="text" id="node-config-input-secmode">
+            <option value="None">None</option>
+            <option value="Sign">Sign</option>
+            <option value="SignAndEncrypt">Sign&Encrypt</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <lable><input type="checkbox" id="node-config-input-login" > use credentials</lable>
+    </div>
+    <div class="form-row node-input-useAuth-row">
+        <label for="node-config-input-user"><i class="icon-user"></i> User</label>
+        <input type="text" id="node-config-input-user">
+    </div>
+    <div class="form-row node-input-useAuth-row">
+        <label for="node-config-input-password"><i class="icon-password"></i> Password</label>
+        <input type="password" id="node-config-input-password">
+    </div>
+</script>
