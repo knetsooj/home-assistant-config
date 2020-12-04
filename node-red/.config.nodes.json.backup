@@ -1526,5 +1526,22 @@
                 "file": "/config/node-red/node_modules/node-red-contrib-opcua/opcua/107-opcuamethod.js"
             }
         }
+    },
+    "node-red-contrib-meta": {
+        "name": "node-red-contrib-meta",
+        "version": "2.0.1",
+        "local": false,
+        "nodes": {
+            "meta": {
+                "name": "meta",
+                "types": [
+                    "meta"
+                ],
+                "enabled": true,
+                "local": true,
+                "module": "node-red-contrib-meta",
+                "file": "/config/node-red/node_modules/node-red-contrib-meta/node.js"
+            }
+        }
     }
 }
