@@ -131,6 +131,10 @@
       entity_id: climate.thermostaat
       temperature: 18.5
     service: climate.set_temperature
+  - type: turn_off
+    device_id: 669bb6de019d11eba7f7e126654f3958
+    entity_id: switch.sonoff_waterkoker_relay
+    domain: switch
   mode: single
 - id: '10'
   alias: Stuur gas meterstand door naar mindergas.nl
@@ -897,3 +901,13 @@
           title: 3D printer is gestart
     default: []
   mode: single
+- id: '1607931481404'
+  alias: Send a camera snapshot when motion is detected
+  description: ''
+  use_blueprint:
+    path: vorion/send-camera-snapshot-notification-on-motion.yaml
+    input:
+      delay: 3
+      camera: camera.carport
+      motion_sensor: input_boolean.motion_cam3
+      notify_device: 71da3fc6031843169f4928b5aaf036cc
