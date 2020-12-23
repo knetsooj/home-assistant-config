@@ -907,7 +907,7 @@
   use_blueprint:
     path: vorion/send-camera-snapshot-notification-on-motion.yaml
     input:
-      delay: 3
-      camera: camera.carport
-      motion_sensor: input_boolean.motion_cam3
+      camera: camera.tuin
       notify_device: 71da3fc6031843169f4928b5aaf036cc
+      delay: '00'
+      motion_sensor: binary_sensor.terras_sensor_sensor
