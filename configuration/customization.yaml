@@ -1,7 +1,0 @@
-#binary_sensor.*_contact:
-#  icon: mdi:walk
-# device_class: motion
-  person.kevin:
-    entity_picture: "https://graph.facebook.com/100000143563305/picture?type=square"
-  person.steffie:
-    entity_picture: "https://graph.facebook.com/100001418021662/picture?type=square"
